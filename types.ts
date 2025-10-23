@@ -31,7 +31,7 @@ export const MOCK_STUDENT: Student = {
   gpa: 3.6,
   degree: "BSc Computer Science",
   faculties: ["Computer Science"],
-  cardImageUrl: "https://placehold.co/600x400",
+  cardImageUrl: require("@/assets/images/studentcard.png"),
 };
 
 export const MOCK_COURSES: Course[] = [

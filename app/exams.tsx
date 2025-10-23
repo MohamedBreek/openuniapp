@@ -1,5 +1,7 @@
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedView } from "@/components/themed-view";
+import Card from "@/components/ui/card";
+import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -8,10 +10,15 @@ export default function ExamsScreen() {
   return (
     <ParallaxScrollView>
       <ThemedView style={styles.container}>
-        <Text style={[styles.title, { color: Colors.light.tint }]}>מבחנים</Text>
-        <View style={styles.card}>
-          <Text style={styles.cardText}>לוח מבחנים והרשמה יוצגו כאן.</Text>
+        <View style={styles.titleRow}>
+          <IconSymbol name="doc.text" size={18} color={Colors.light.tint} />
+          <Text style={[styles.title, { color: Colors.light.tint }]}>
+            מבחנים
+          </Text>
         </View>
+        <Card>
+          <Text style={styles.cardText}>לוח מבחנים והרשמה יוצגו כאן.</Text>
+        </Card>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -24,6 +31,12 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: Colors.light.text,
     marginBottom: 12,
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 8,
   },
   card: {
     backgroundColor: "#fff",

@@ -1,5 +1,7 @@
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedView } from "@/components/themed-view";
+import Card from "@/components/ui/card";
+import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useAuth } from "@/context/auth";
 import React from "react";
@@ -10,20 +12,21 @@ export default function StudentCardScreen() {
   return (
     <ParallaxScrollView>
       <ThemedView style={styles.container}>
-        <Text style={[styles.title, { color: Colors.light.tint }]}>
-          כרטיס סטודנט
-        </Text>
-        <View style={styles.card}>
+        <View style={styles.titleRow}>
+          <IconSymbol name="id.card" size={18} color={Colors.light.tint} />
+          <Text style={[styles.title, { color: Colors.light.tint }]}>
+            כרטיס סטודנט
+          </Text>
+        </View>
+        <Card>
           <Image
-            source={{
-              uri: student?.cardImageUrl || "https://placehold.co/240x160",
-            }}
+            source={require("../assets//images/studentcard.png")}
             style={styles.image}
             resizeMode="cover"
           />
           <Text style={styles.name}>{student?.fullName}</Text>
           <Text style={styles.id}>{student?.id}</Text>
-        </View>
+        </Card>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -36,6 +39,12 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: Colors.light.text,
     marginBottom: 12,
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 8,
   },
   card: {
     backgroundColor: "#fff",

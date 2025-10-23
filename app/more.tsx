@@ -1,5 +1,7 @@
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedView } from "@/components/themed-view";
+import Card from "@/components/ui/card";
+import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -8,12 +10,19 @@ export default function MoreScreen() {
   return (
     <ParallaxScrollView>
       <ThemedView style={styles.container}>
-        <Text style={[styles.title, { color: Colors.light.tint }]}>עוד</Text>
-        <View style={styles.card}>
+        <View style={styles.titleRow}>
+          <IconSymbol
+            name="ellipsis.circle"
+            size={18}
+            color={Colors.light.tint}
+          />
+          <Text style={[styles.title, { color: Colors.light.tint }]}>עוד</Text>
+        </View>
+        <Card>
           <Text style={styles.cardText}>
             שירותים וקישורים נוספים לסטודנטים.
           </Text>
-        </View>
+        </Card>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -26,6 +35,12 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: Colors.light.text,
     marginBottom: 12,
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 8,
   },
   card: {
     backgroundColor: "#fff",

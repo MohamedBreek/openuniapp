@@ -1,12 +1,15 @@
 import { ThemedView } from "@/components/themed-view";
+import Card from "@/components/ui/card";
 import { Colors } from "@/constants/theme";
 import { useAuth } from "@/context/auth";
+import { useRouter } from "expo-router";
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function GradesScreen() {
   // translations removed; Hebrew-only
   const { courses } = useAuth();
+  const router = useRouter();
 
   return (
     <ThemedView style={styles.container}>
@@ -21,23 +24,31 @@ export default function GradesScreen() {
           </View>
         )}
         renderItem={({ item }) => (
-          <View style={styles.card}>
-            <View style={styles.cardLeft}>
-              <Text style={styles.code}>{item.code}</Text>
-              <Text style={styles.titleSmall}>{item.title}</Text>
-              <Text style={styles.semester}>{item.semester}</Text>
-            </View>
-            <View style={styles.cardRight}>
-              <View
-                style={[
-                  styles.gradeBadge,
-                  { backgroundColor: Colors.light.tint },
-                ]}
-              >
-                <Text style={styles.gradeText}>{item.grade ?? "-"}</Text>
+          <Card
+            onPress={() => {
+              try {
+                router.push(`/courses/${item.id}` as any);
+              } catch {}
+            }}
+          >
+            <View style={styles.cardInner}>
+              <View style={styles.cardLeft}>
+                <Text style={styles.code}>{item.code}</Text>
+                <Text style={styles.titleSmall}>{item.title}</Text>
+                <Text style={styles.semester}>{item.semester}</Text>
+              </View>
+              <View style={styles.cardRight}>
+                <View
+                  style={[
+                    styles.gradeBadge,
+                    { backgroundColor: Colors.light.tint },
+                  ]}
+                >
+                  <Text style={styles.gradeText}>{item.grade ?? "-"}</Text>
+                </View>
               </View>
             </View>
-          </View>
+          </Card>
         )}
       />
     </ThemedView>
@@ -47,14 +58,16 @@ export default function GradesScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16 },
   title: { fontSize: 20, fontWeight: "800", marginBottom: 12 },
+  cardInner: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   card: {
     backgroundColor: "#fff",
     borderRadius: 12,
     padding: 14,
     marginBottom: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
     shadowColor: "#000",
     shadowOpacity: 0.06,
     shadowRadius: 8,

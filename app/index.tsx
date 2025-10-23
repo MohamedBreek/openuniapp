@@ -41,9 +41,7 @@ export default function HomeScreen() {
             onPress={() => setModalVisible(true)}
           >
             <Image
-              source={{
-                uri: student?.photoUrl || "https://placehold.co/64x64",
-              }}
+              source={require("../assets//images/studentcard.png")}
               style={styles.avatarSmallImg}
             />
           </Pressable>
