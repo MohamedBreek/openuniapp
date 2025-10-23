@@ -5,9 +5,69 @@ import HeroBanner from "@/components/ui/hero-banner";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+
+type CalendarEvent = {
+  id: string;
+  date: string;
+  title: string;
+  time?: string;
+  meta?: string;
+  category?: string;
+};
+
+type CalendarCell = {
+  key: string;
+  label?: number;
+  dateKey?: string;
+  hasEvents?: boolean;
+  isToday?: boolean;
+  isSelected?: boolean;
+};
+
+const hebrewMonths = [
+  "ינואר",
+  "פברואר",
+  "מרץ",
+  "אפריל",
+  "מאי",
+  "יוני",
+  "יולי",
+  "אוגוסט",
+  "ספטמבר",
+  "אוקטובר",
+  "נובמבר",
+  "דצמבר",
+];
+
+const weekDayLabels = ["א׳", "ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "ש׳"];
+
+const formatDateKey = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+const formatDateLabel = (dateKey: string) => {
+  if (!dateKey) {
+    return "";
+  }
+  const date = new Date(dateKey + "T00:00:00");
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}.${month}.${year}`;
+};
 
 export default function SystemScreen() {
+  const todayKey = React.useMemo(() => formatDateKey(new Date()), []);
+  const [currentMonthDate, setCurrentMonthDate] = React.useState(() => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), 1);
+  });
+  const [selectedDateKey, setSelectedDateKey] = React.useState(todayKey);
+
   const schedule = [
     {
       id: "1",
@@ -68,7 +128,157 @@ export default function SystemScreen() {
     },
   ];
 
+  const calendarEvents = React.useMemo<CalendarEvent[]>(
+    () => [
+      {
+        id: "ce1",
+        date: "2025-10-20",
+        title: "שיעור אלגוריתמים מתקדמים",
+        time: "08:30",
+        meta: "בניין 3 · חדר 204",
+        category: "מפגש חי",
+      },
+      {
+        id: "ce2",
+        date: "2025-10-21",
+        title: "שיעור יסודות בינה מלאכותית",
+        time: "11:00",
+        meta: "למידה מרחוק · זום",
+        category: "שיעור מקוון",
+      },
+      {
+        id: "ce3",
+        date: "2025-10-22",
+        title: "מעבדה במדעי המחשב",
+        time: "13:15",
+        meta: "בניין 6 · מעבדה 2",
+        category: "מעבדה",
+      },
+      {
+        id: "ce4",
+        date: "2025-10-24",
+        title: "הגשת תרגיל 2 - אלגוריתמים",
+        time: "23:59",
+        meta: "העלה קובץ PDF עד חצות",
+        category: "משימה",
+      },
+      {
+        id: "ce5",
+        date: "2025-10-27",
+        title: "מפגש ייעוץ עם המתרגל",
+        time: "17:00",
+        meta: "בניין 1 · חדר 302",
+        category: "ייעוץ",
+      },
+      {
+        id: "ce6",
+        date: "2025-11-02",
+        title: "מבחן אלגוריתמים מתקדמים",
+        time: "09:00",
+        meta: "בניין 4 · אולם 201",
+        category: "בחינה",
+      },
+      {
+        id: "ce7",
+        date: "2025-11-08",
+        title: "מבחן יסודות בינה מלאכותית",
+        time: "13:30",
+        meta: "למידה מרחוק · זום",
+        category: "בחינה",
+      },
+      {
+        id: "ce8",
+        date: "2025-11-15",
+        title: "מבחן סטטיסטיקה להנדסה",
+        time: "16:00",
+        meta: "בניין 2 · אולם 105",
+        category: "בחינה",
+      },
+    ],
+    []
+  );
+
+  const eventsByDate = React.useMemo<Record<string, CalendarEvent[]>>(() => {
+    const map: Record<string, CalendarEvent[]> = {};
+    calendarEvents.forEach((event) => {
+      if (!map[event.date]) {
+        map[event.date] = [];
+      }
+      map[event.date].push(event);
+    });
+    return map;
+  }, [calendarEvents]);
+
   const nextSlot = schedule[0];
+  const currentYear = currentMonthDate.getFullYear();
+  const currentMonth = currentMonthDate.getMonth();
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const startDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+  const monthLabel = `${hebrewMonths[currentMonth]} ${currentYear}`;
+
+  const calendarWeeks = React.useMemo(() => {
+    const cells: CalendarCell[] = [];
+
+    for (let i = 0; i < startDayIndex; i += 1) {
+      cells.push({ key: `leading-${i}` });
+    }
+
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      const dateObj = new Date(currentYear, currentMonth, day);
+      const dateKey = formatDateKey(dateObj);
+      const hasEvents = Boolean(eventsByDate[dateKey]);
+      cells.push({
+        key: dateKey,
+        label: day,
+        dateKey,
+        hasEvents,
+        isToday: dateKey === todayKey,
+        isSelected: dateKey === selectedDateKey,
+      });
+    }
+
+    while (cells.length % 7 !== 0) {
+      const index = cells.length;
+      cells.push({ key: `trailing-${index}` });
+    }
+
+    const weeks: CalendarCell[][] = [];
+    for (let i = 0; i < cells.length; i += 7) {
+      weeks.push(cells.slice(i, i + 7));
+    }
+    return weeks;
+  }, [
+    currentMonth,
+    currentYear,
+    daysInMonth,
+    eventsByDate,
+    selectedDateKey,
+    startDayIndex,
+    todayKey,
+  ]);
+
+  React.useEffect(() => {
+    const selected = new Date(selectedDateKey + "T00:00:00");
+    if (
+      selected.getFullYear() !== currentYear ||
+      selected.getMonth() !== currentMonth
+    ) {
+      setSelectedDateKey(formatDateKey(new Date(currentYear, currentMonth, 1)));
+    }
+  }, [currentMonth, currentYear, selectedDateKey]);
+
+  const selectedEvents = eventsByDate[selectedDateKey] ?? [];
+
+  const handleMonthShift = (direction: "prev" | "next") => {
+    setCurrentMonthDate(
+      (prev) =>
+        new Date(
+          prev.getFullYear(),
+          prev.getMonth() + (direction === "next" ? 1 : -1),
+          1
+        )
+    );
+  };
 
   return (
     <ParallaxScrollView>
@@ -90,6 +300,110 @@ export default function SystemScreen() {
             </View>
           ) : null}
         </HeroBanner>
+
+        <Card>
+          <View style={styles.calendarHeader}>
+            <Pressable
+              style={styles.calendarNavButton}
+              onPress={() => handleMonthShift("prev")}
+              accessibilityRole="button"
+              accessibilityLabel="חודש קודם"
+            >
+              <IconSymbol
+                name="chevron.right"
+                size={16}
+                color={Colors.light.tint}
+              />
+            </Pressable>
+            <Text style={styles.calendarMonthLabel}>{monthLabel}</Text>
+            <Pressable
+              style={styles.calendarNavButton}
+              onPress={() => handleMonthShift("next")}
+              accessibilityRole="button"
+              accessibilityLabel="חודש הבא"
+            >
+              <IconSymbol
+                name="chevron.left"
+                size={16}
+                color={Colors.light.tint}
+              />
+            </Pressable>
+          </View>
+
+          <View style={styles.calendarWeekDaysRow}>
+            {weekDayLabels.map((label) => (
+              <Text key={label} style={styles.calendarWeekDayText}>
+                {label}
+              </Text>
+            ))}
+          </View>
+
+          {calendarWeeks.map((week, index) => (
+            <View key={`week-${index}`} style={styles.calendarWeekRow}>
+              {week.map((cell) => {
+                if (!cell.label || !cell.dateKey) {
+                  return (
+                    <View
+                      key={cell.key}
+                      style={styles.calendarDayPlaceholder}
+                    />
+                  );
+                }
+                return (
+                  <Pressable
+                    key={cell.key}
+                    style={[
+                      styles.calendarDay,
+                      cell.isSelected && styles.calendarDaySelected,
+                    ]}
+                    onPress={() => setSelectedDateKey(cell.dateKey!)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`יום ${cell.label}`}
+                  >
+                    <Text
+                      style={[
+                        styles.calendarDayText,
+                        cell.isToday && styles.calendarDayTodayText,
+                        cell.isSelected && styles.calendarDaySelectedText,
+                      ]}
+                    >
+                      {cell.label}
+                    </Text>
+                    {cell.hasEvents ? (
+                      <View style={styles.calendarDayDot} />
+                    ) : null}
+                  </Pressable>
+                );
+              })}
+            </View>
+          ))}
+        </Card>
+
+        <Card>
+          <Text style={styles.sectionTitle}>אירועים ביום הנבחר</Text>
+          <Text style={styles.selectedDateLabel}>
+            {formatDateLabel(selectedDateKey)}
+          </Text>
+          {selectedEvents.length > 0 ? (
+            selectedEvents.map((event) => (
+              <View key={event.id} style={styles.eventRow}>
+                <View style={styles.eventMeta}>
+                  <Text style={styles.eventTitle}>{event.title}</Text>
+                  {event.meta ? (
+                    <Text style={styles.eventInfo}>{event.meta}</Text>
+                  ) : null}
+                </View>
+                <View style={styles.eventPill}>
+                  <Text style={styles.eventPillText}>{event.time}</Text>
+                </View>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.emptyStateText}>
+              אין משימות או מפגשים ביום זה.
+            </Text>
+          )}
+        </Card>
 
         <Card>
           <Text style={styles.sectionTitle}>מערכת להיום</Text>
@@ -163,6 +477,96 @@ const styles = StyleSheet.create({
   },
   heroMetaText: { color: "#fff", fontWeight: "600" },
   heroMetaCourse: { color: "rgba(255,255,255,0.85)", fontWeight: "700" },
+  calendarHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
+  calendarNavButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(21,101,216,0.12)",
+  },
+  calendarMonthLabel: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: Colors.light.text,
+  },
+  calendarWeekDaysRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 6,
+  },
+  calendarWeekDayText: {
+    flex: 1,
+    textAlign: "center",
+    fontWeight: "700",
+    color: "#4B5563",
+  },
+  calendarWeekRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 6,
+  },
+  calendarDayPlaceholder: { flex: 1, padding: 6 },
+  calendarDay: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0.6)",
+    borderWidth: 1,
+    borderColor: "rgba(21,101,216,0.08)",
+    marginHorizontal: 4,
+  },
+  calendarDaySelected: {
+    backgroundColor: Colors.light.tint,
+    borderColor: Colors.light.tint,
+  },
+  calendarDayText: { fontWeight: "700", color: Colors.light.text },
+  calendarDayTodayText: { color: Colors.light.tint },
+  calendarDaySelectedText: { color: "#fff" },
+  calendarDayDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "#fff",
+    marginTop: 6,
+  },
+  selectedDateLabel: {
+    fontWeight: "700",
+    color: Colors.light.tint,
+    marginBottom: 8,
+    textAlign: "right",
+  },
+  eventRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderColor: "rgba(21,101,216,0.08)",
+  },
+  eventMeta: { flex: 1, gap: 4 },
+  eventTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+  },
+  eventInfo: { color: "#4B5563", fontSize: 12, textAlign: "right" },
+  eventPill: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 999,
+    backgroundColor: "rgba(21,101,216,0.12)",
+  },
+  eventPillText: { color: Colors.light.tint, fontWeight: "700" },
+  emptyStateText: { color: "#4B5563", textAlign: "center", marginTop: 8 },
   slotRow: {
     flexDirection: "row",
     alignItems: "center",

@@ -35,43 +35,91 @@ export default function ExamsScreen() {
     },
   ];
 
-  const prepTips = [
+  const prepHighlights = [
     {
       id: "p1",
       title: "סימולציה מלאה",
-      detail: "הורידו מבחנים משנים קודמות ותרגלו תחת תנאי זמן.",
+      detail: "הורידו מבחנים משנים קודמות ותרגלו בתנאי זמן אמיתיים.",
     },
     {
       id: "p2",
-      title: "מרכז תמיכה",
-      detail: "קבעו מפגש חזרה עם המתרגל או הצטרפו לחונכות קבוצתית.",
+      title: "ליווי צמוד",
+      detail: "קבעו מפגש עם המתרגל, הצטרפו לחונכות קבוצתית או צ'אט מומחה.",
     },
     {
       id: "p3",
-      title: "איזון והפסקות",
-      detail: "זכרו להקדיש זמן למנוחה ולתכנון יומי מסודר.",
+      title: "איזון ומנוחה",
+      detail: "שלבו תכנון יומי, פעילות גופנית קצרה והפסקות איכותיות.",
     },
   ];
 
-  const resources = [
+  const prepTimeline = [
     {
-      id: "r1",
+      id: "t1",
+      label: "שלושה שבועות לפני",
+      actions: "ארגנו לוז משימות, עברו על הסילבוס וסמנו נושאים חלשים.",
+    },
+    {
+      id: "t2",
+      label: "שבועיים לפני",
+      actions: "פתרו שני מבחנים מלאים, העלו שאלות בפורום הקורס.",
+    },
+    {
+      id: "t3",
+      label: "ימים ספורים לפני",
+      actions: "עברו על תקצירי חומרים, הכינו ציוד ובדקו את המיקום המדויק.",
+    },
+  ];
+
+  const supportServices = [
+    {
+      id: "s1",
       title: "הרשמה למועדי ב׳",
-      info: "עד 48 שעות לפני המועד המקורי",
+      info: "פתוח עד 48 שעות לפני המועד המקורי, בתנאי עמידה בקריטריונים.",
+      icon: "calendar",
     },
     {
-      id: "r2",
-      title: "הנחיות נגישות",
-      info: "שלחו בקשה למרכז התמיכה לפחות שבוע מראש",
+      id: "s2",
+      title: "התאמות נגישות",
+      info: "שלחו בקשה למרכז התמיכה לפחות שבוע מראש בצירוף מסמכים.",
+      icon: "hand.heart",
     },
     {
-      id: "r3",
+      id: "s3",
       title: "ציוד מותר",
-      info: "כרטיס סטודנט, תעודה מזהה, מחשבון פשוט",
+      info: "כרטיס סטודנט, תעודה מזהה, מחשבון פשוט ועט שחור/כחול.",
+      icon: "doc.richtext",
+    },
+  ];
+
+  const policyReminders = [
+    {
+      id: "pr1",
+      title: "הגעה בזמן",
+      detail: "הכניסה מתחילה 30 דקות לפני, והדלתות נסגרות עם תחילת הבחינה.",
+    },
+    {
+      id: "pr2",
+      title: "התנהלות בבחינה",
+      detail: "יש לשמור על שקט מלא ולפנות משגיחים בכל שאלה או תקלה.",
+    },
+    {
+      id: "pr3",
+      title: "ציוד אישי",
+      detail: "טלפונים ומכשירים חכמים נשמרים כבויים בתיק לאורך כל הבחינה.",
     },
   ];
 
   const nextExam = upcomingExams[0];
+
+  const statusPalette: Record<string, { background: string; text: string }> = {
+    "הרשמה פתוחה": {
+      background: "rgba(21,101,216,0.12)",
+      text: Colors.light.tint,
+    },
+    מקוון: { background: "rgba(16,185,129,0.15)", text: "#047857" },
+    "הרשמה עתידית": { background: "rgba(249,115,22,0.12)", text: "#C2410C" },
+  };
 
   return (
     <ParallaxScrollView>
@@ -96,29 +144,49 @@ export default function ExamsScreen() {
 
         <Card>
           <Text style={styles.sectionTitle}>מועדי בחינות</Text>
-          {upcomingExams.map((exam) => (
-            <View key={exam.id} style={styles.examRow}>
-              <View style={styles.examTimeBox}>
-                <Text style={styles.examDate}>{exam.date}</Text>
-                <Text style={styles.examHour}>{exam.time}</Text>
+          {upcomingExams.map((exam) => {
+            const palette = statusPalette[exam.status] ?? {
+              background: "rgba(21,101,216,0.12)",
+              text: Colors.light.tint,
+            };
+
+            return (
+              <View key={exam.id} style={styles.examRow}>
+                <View style={styles.examTimeBox}>
+                  <Text style={styles.examDate}>{exam.date}</Text>
+                  <Text style={styles.examHour}>{exam.time}</Text>
+                </View>
+                <View style={styles.examDetails}>
+                  <Text style={styles.examCourse}>{exam.course}</Text>
+                  <Text style={styles.examLocation}>{exam.location}</Text>
+                </View>
+                <View
+                  style={[
+                    styles.examStatusPill,
+                    { backgroundColor: palette.background },
+                  ]}
+                >
+                  <Text
+                    style={[styles.examStatusText, { color: palette.text }]}
+                  >
+                    {exam.status}
+                  </Text>
+                </View>
               </View>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.examCourse}>{exam.course}</Text>
-                <Text style={styles.examLocation}>{exam.location}</Text>
-              </View>
-              <View style={styles.examStatusPill}>
-                <Text style={styles.examStatusText}>{exam.status}</Text>
-              </View>
-            </View>
-          ))}
+            );
+          })}
         </Card>
 
         <Card>
-          <Text style={styles.sectionTitle}>הכנה חכמה</Text>
-          {prepTips.map((tip) => (
+          <Text style={styles.sectionTitle}>אסטרטגיית הכנה</Text>
+          {prepHighlights.map((tip) => (
             <View key={tip.id} style={styles.tipRow}>
               <View style={styles.tipIcon}>
-                <IconSymbol name="star" size={16} color={Colors.light.tint} />
+                <IconSymbol
+                  name="sparkles"
+                  size={16}
+                  color={Colors.light.tint}
+                />
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.tipTitle}>{tip.title}</Text>
@@ -129,18 +197,50 @@ export default function ExamsScreen() {
         </Card>
 
         <Card>
-          <Text style={styles.sectionTitle}>נהלים ומשאבים</Text>
-          {resources.map((item) => (
-            <View key={item.id} style={styles.resourceRow}>
+          <Text style={styles.sectionTitle}>לוח זמנים מומלץ</Text>
+          {prepTimeline.map((milestone, index) => (
+            <View key={milestone.id} style={styles.timelineRow}>
+              <View style={styles.timelineBadge}>
+                <Text style={styles.timelineBadgeText}>{index + 1}</Text>
+              </View>
               <View style={{ flex: 1 }}>
-                <Text style={styles.resourceTitle}>{item.title}</Text>
-                <Text style={styles.resourceInfo}>{item.info}</Text>
+                <Text style={styles.timelineLabel}>{milestone.label}</Text>
+                <Text style={styles.timelineActions}>{milestone.actions}</Text>
+              </View>
+            </View>
+          ))}
+        </Card>
+
+        <Card>
+          <Text style={styles.sectionTitle}>שירותים חיוניים</Text>
+          {supportServices.map((service) => (
+            <View key={service.id} style={styles.serviceRow}>
+              <View style={styles.serviceIcon}>
+                <IconSymbol
+                  name={service.icon}
+                  size={18}
+                  color={Colors.light.tint}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.serviceTitle}>{service.title}</Text>
+                <Text style={styles.serviceInfo}>{service.info}</Text>
               </View>
               <IconSymbol
                 name="chevron.right"
                 size={18}
                 color={Colors.light.tint}
               />
+            </View>
+          ))}
+        </Card>
+
+        <Card>
+          <Text style={styles.sectionTitle}>נהלים שחשוב לזכור</Text>
+          {policyReminders.map((item) => (
+            <View key={item.id} style={styles.policyRow}>
+              <Text style={styles.policyTitle}>{item.title}</Text>
+              <Text style={styles.policyDetail}>{item.detail}</Text>
             </View>
           ))}
         </Card>
@@ -152,7 +252,7 @@ export default function ExamsScreen() {
 const styles = StyleSheet.create({
   container: { padding: 20, gap: 18 },
   sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 12 },
-  heroBadgeRow: { marginTop: 16, gap: 8 },
+  heroBadgeRow: { marginTop: 16, gap: 10 },
   heroBadge: {
     flexDirection: "row",
     alignItems: "center",
@@ -182,15 +282,19 @@ const styles = StyleSheet.create({
   },
   examDate: { fontWeight: "800", color: Colors.light.tint },
   examHour: { color: "#1F2937", marginTop: 4, fontSize: 12 },
-  examCourse: { fontWeight: "700", color: Colors.light.text },
-  examLocation: { color: "#4B5563", marginTop: 4 },
+  examDetails: { flex: 1, alignItems: "flex-end" },
+  examCourse: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+  },
+  examLocation: { color: "#4B5563", marginTop: 4, textAlign: "right" },
   examStatusPill: {
-    backgroundColor: "rgba(21,101,216,0.12)",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 999,
   },
-  examStatusText: { color: Colors.light.tint, fontWeight: "700", fontSize: 12 },
+  examStatusText: { fontWeight: "700", fontSize: 12 },
   tipRow: {
     flexDirection: "row",
     gap: 12,
@@ -205,16 +309,72 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(21,101,216,0.12)",
   },
-  tipTitle: { fontWeight: "700", color: Colors.light.text },
-  tipDetail: { color: "#4B5563", marginTop: 4, lineHeight: 18 },
-  resourceRow: {
+  tipTitle: { fontWeight: "700", color: Colors.light.text, textAlign: "right" },
+  tipDetail: {
+    color: "#4B5563",
+    marginTop: 4,
+    lineHeight: 18,
+    textAlign: "right",
+  },
+  timelineRow: {
+    flexDirection: "row",
+    gap: 12,
+    alignItems: "flex-start",
+    marginBottom: 14,
+  },
+  timelineBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(21,101,216,0.12)",
+  },
+  timelineBadgeText: { color: Colors.light.tint, fontWeight: "700" },
+  timelineLabel: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+  },
+  timelineActions: {
+    color: "#4B5563",
+    marginTop: 4,
+    lineHeight: 18,
+    textAlign: "right",
+  },
+  serviceRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    gap: 14,
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderColor: "rgba(21,101,216,0.08)",
   },
-  resourceTitle: { fontWeight: "700", color: Colors.light.text },
-  resourceInfo: { color: "#4B5563", marginTop: 4, fontSize: 12 },
+  serviceIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(21,101,216,0.12)",
+  },
+  serviceTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+  },
+  serviceInfo: {
+    color: "#4B5563",
+    marginTop: 4,
+    fontSize: 12,
+    textAlign: "right",
+  },
+  policyRow: {
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderColor: "rgba(21,101,216,0.08)",
+    gap: 6,
+  },
+  policyTitle: { fontWeight: "700", color: Colors.light.text },
+  policyDetail: { color: "#4B5563", lineHeight: 18, textAlign: "right" },
 });

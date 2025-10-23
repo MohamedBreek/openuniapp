@@ -4,7 +4,15 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React from "react";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  I18nManager,
+  Pressable,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 import HeaderMenu from "@/components/HeaderMenu";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
@@ -14,8 +22,14 @@ import { useAuth } from "@/context/auth";
 // translations removed - app is Hebrew-only
 
 export default function HomeScreen() {
-  const { student, courses } = useAuth();
+  const { student, courses, refreshCourses, refreshing } = useAuth();
   const [modalVisible, setModalVisible] = React.useState(false);
+
+  const handleRefresh = React.useCallback(() => {
+    refreshCourses().catch(() => {
+      /* ignore refresh errors in mock */
+    });
+  }, [refreshCourses]);
 
   // translations removed; use Hebrew literals
 
@@ -64,7 +78,16 @@ export default function HomeScreen() {
   ];
 
   return (
-    <ParallaxScrollView>
+    <ParallaxScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          tintColor={Colors.light.tint}
+          colors={[Colors.light.tint]}
+        />
+      }
+    >
       <ThemedView style={styles.container} useGradient>
         <View style={styles.headerRowTop}>
           <Pressable
@@ -72,9 +95,7 @@ export default function HomeScreen() {
             onPress={() => setModalVisible(true)}
           >
             <Image
-              source={{
-                uri: student?.photoUrl || "https://placehold.co/96x96",
-              }}
+              source={require("@/assets/images/pass.png")}
               style={styles.avatarSmallImg}
             />
           </Pressable>
@@ -131,7 +152,11 @@ export default function HomeScreen() {
           data={tiles}
           keyExtractor={(t) => t.id}
           numColumns={3}
-          columnWrapperStyle={styles.tileRow}
+          contentContainerStyle={styles.tileListContent}
+          columnWrapperStyle={[
+            styles.tileRow,
+            I18nManager.isRTL && styles.tileRowRtl,
+          ]}
           renderItem={({ item }) => (
             <Pressable
               style={styles.tile}
@@ -258,7 +283,9 @@ const styles = StyleSheet.create({
   statValue: { fontSize: 20, fontWeight: "800", color: Colors.light.tint },
   statLabel: { marginTop: 6, fontWeight: "700", color: "#1F2937" },
   statHint: { marginTop: 2, color: "#6B7280", fontSize: 12 },
+  tileListContent: { paddingBottom: 4 },
   tileRow: { justifyContent: "space-between", marginBottom: 12 },
+  tileRowRtl: { flexDirection: "row-reverse" },
   tile: {
     flex: 1,
     margin: 6,
@@ -280,7 +307,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 12,
     backgroundColor: "#E6EEF6",
-    marginBottom: 8,
+    marginBottom: 3,
   },
   tileIconWrap: {
     width: 56,
@@ -288,17 +315,17 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 10,
+    marginBottom: 1,
     shadowColor: "#000",
     shadowOpacity: 0.04,
     shadowRadius: 8,
-    elevation: 3,
+    elevation: 1,
   },
   tileText: {
     textAlign: "center",
     fontWeight: "700",
     fontSize: 13,
-    marginTop: 4,
+    marginTop: 0,
   },
   newsCard: {
     marginTop: 12,
@@ -317,7 +344,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     gap: 8,
-    marginBottom: 8,
+    marginBottom: 4,
   },
   newsBadge: {
     backgroundColor: "#6B3A40",
