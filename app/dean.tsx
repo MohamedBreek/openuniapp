@@ -9,7 +9,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function DeanScreen() {
   return (
     <ParallaxScrollView>
-      <ThemedView style={styles.container}>
+      <ThemedView style={styles.container} useGradient>
         <View style={styles.titleRow}>
           <IconSymbol name="hand.heart" size={18} color={Colors.light.tint} />
           <Text style={[styles.title, { color: Colors.light.tint }]}>

@@ -12,7 +12,7 @@ export default function GradesScreen() {
   const router = useRouter();
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={styles.container} useGradient>
       <Text style={[styles.title, { color: Colors.light.tint }]}>ציונים</Text>
 
       <FlatList

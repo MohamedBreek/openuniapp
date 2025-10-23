@@ -28,13 +28,15 @@ export default function Card({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 3,
+    backgroundColor: "rgba(255,255,255,0.9)",
+    borderRadius: 18,
+    padding: 18,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "rgba(21,101,216,0.08)",
+    shadowColor: "#1565D8",
+    shadowOpacity: 0.08,
+    shadowRadius: 18,
+    elevation: 5,
   },
 });

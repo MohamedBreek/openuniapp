@@ -35,18 +35,9 @@ export default function RootLayout() {
             <Text>טוען גופנים...</Text>
           </View>
         ) : null}
-        <View
-          style={{
-            height: 48,
-            justifyContent: "center",
-            alignItems: "flex-end",
-            paddingHorizontal: 12,
-          }}
-        >
-          <View style={{ height: 8 }} />
-        </View>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="login" options={{ headerShown: false }} />
           <Stack.Screen
             name="modal"
             options={{ presentation: "modal", title: "Modal" }}

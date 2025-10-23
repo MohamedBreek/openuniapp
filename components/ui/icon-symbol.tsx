@@ -27,6 +27,9 @@ const MAPPING = {
   "hand.heart": "favorite",
   graduationcap: "school",
   "ellipsis.circle": "more-horiz",
+  sparkles: "auto-awesome",
+  star: "star",
+  "square.and.arrow.down": "file-download",
 } as IconMapping;
 
 /**

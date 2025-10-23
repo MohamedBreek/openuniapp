@@ -1,10 +1,18 @@
 import React from "react";
-import { Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  ImageSourcePropType,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 type Props = {
   visible: boolean;
   onClose: () => void;
-  imageUrl?: string;
+  imageUrl?: string | number;
   name?: string;
   id?: string;
 };
@@ -17,6 +25,13 @@ export default function StudentCardModal({
   id,
 }: Props) {
   // translations removed; Hebrew-only
+  const cardImageSource: ImageSourcePropType =
+    typeof imageUrl === "number"
+      ? imageUrl
+      : imageUrl
+      ? { uri: imageUrl }
+      : require("@/assets/images/studentcard.png");
+
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <Pressable style={styles.backdrop} onPress={onClose}>
@@ -24,15 +39,15 @@ export default function StudentCardModal({
           <Pressable style={styles.close} onPress={onClose}>
             <Text style={styles.closeText}>סגור</Text>
           </Pressable>
-          {imageUrl ? (
+          <Pressable style={styles.inner} onPress={() => {}}>
             <Image
-              source={{ uri: imageUrl }}
+              source={cardImageSource}
               style={styles.image}
-              resizeMode="cover"
+              resizeMode="contain"
             />
-          ) : null}
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.id}>{id}</Text>
+            <Text style={styles.name}>{name}</Text>
+            <Text style={styles.id}>{id}</Text>
+          </Pressable>
         </View>
       </Pressable>
     </Modal>
@@ -53,7 +68,13 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: "center",
   },
-  image: { width: "100%", height: 180, borderRadius: 8, marginBottom: 12 },
+  inner: {
+    width: "100%",
+    alignItems: "center",
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  image: { width: "100%", aspectRatio: 1.6, borderRadius: 8, marginBottom: 12 },
   name: { fontSize: 18, fontWeight: "600" },
   id: { color: "#666", marginTop: 4 },
   close: { position: "absolute", right: 8, top: 8, zIndex: 10 },

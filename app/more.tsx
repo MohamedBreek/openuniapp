@@ -9,7 +9,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function MoreScreen() {
   return (
     <ParallaxScrollView>
-      <ThemedView style={styles.container}>
+      <ThemedView style={styles.container} useGradient>
         <View style={styles.titleRow}>
           <IconSymbol
             name="ellipsis.circle"

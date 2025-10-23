@@ -1,6 +1,7 @@
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { Image } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
@@ -13,7 +14,7 @@ import { useAuth } from "@/context/auth";
 // translations removed - app is Hebrew-only
 
 export default function HomeScreen() {
-  const { student } = useAuth();
+  const { student, courses } = useAuth();
   const [modalVisible, setModalVisible] = React.useState(false);
 
   // translations removed; use Hebrew literals
@@ -31,17 +32,49 @@ export default function HomeScreen() {
   ];
 
   const router = useRouter();
+  const courseList = Array.isArray(courses) ? courses : [];
+  const activeCourses = courseList.filter((c) => c.status !== "completed");
+  const completedCourses = courseList.filter((c) => c.status === "completed");
+  const nextCourse = activeCourses[0];
+  const statusLabelMap: Record<string, string> = {
+    active: "סטודנט פעיל",
+    "on-leave": "בחופשה",
+    graduated: "סיים לימודים",
+    suspended: "השהיה",
+  };
+  const stats = [
+    {
+      id: "gpa",
+      value: typeof student?.gpa === "number" ? student.gpa.toFixed(1) : "--",
+      label: "ממוצע מצטבר",
+      hint: "עודכן לאחרונה",
+    },
+    {
+      id: "active",
+      value: String(activeCourses.length),
+      label: "קורסים פעילים",
+      hint: "סמסטר נוכחי",
+    },
+    {
+      id: "completed",
+      value: String(completedCourses.length),
+      label: "הושלמו",
+      hint: statusLabelMap[student?.status ?? "active"] ?? "",
+    },
+  ];
 
   return (
     <ParallaxScrollView>
-      <ThemedView style={styles.container}>
+      <ThemedView style={styles.container} useGradient>
         <View style={styles.headerRowTop}>
           <Pressable
             style={styles.avatarSmall}
             onPress={() => setModalVisible(true)}
           >
             <Image
-              source={require("../assets//images/studentcard.png")}
+              source={{
+                uri: student?.photoUrl || "https://placehold.co/96x96",
+              }}
               style={styles.avatarSmallImg}
             />
           </Pressable>
@@ -54,10 +87,46 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <View style={styles.greetingCard}>
-          <Text style={styles.greetingText}>
-            שלום רב, {student?.fullName ?? "סטודנט"}
-          </Text>
+        <LinearGradient
+          colors={["#1565D8", "#1E90FF"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.heroCard}
+        >
+          <View style={styles.heroTopRow}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.heroGreeting}>
+                שלום רב, {student?.fullName ?? "סטודנט"}
+              </Text>
+              <Text style={styles.heroSubtitle}>כך נראה היום האקדמי שלך</Text>
+            </View>
+            <Pressable
+              style={styles.heroButton}
+              onPress={() => setModalVisible(true)}
+            >
+              <Text style={styles.heroButtonText}>כרטיס סטודנט</Text>
+            </Pressable>
+          </View>
+          {nextCourse ? (
+            <View style={styles.heroInfoRow}>
+              <IconSymbol name="calendar" size={18} color="#fff" />
+              <View style={{ flex: 1 }}>
+                <Text style={styles.heroInfoLabel}>השיעור הבא</Text>
+                <Text style={styles.heroInfoValue}>{nextCourse.title}</Text>
+              </View>
+              <Text style={styles.heroInfoMeta}>{nextCourse.semester}</Text>
+            </View>
+          ) : null}
+        </LinearGradient>
+
+        <View style={styles.statsRow}>
+          {stats.map((stat) => (
+            <View key={stat.id} style={styles.statCard}>
+              <Text style={styles.statValue}>{stat.value}</Text>
+              <Text style={styles.statLabel}>{stat.label}</Text>
+              <Text style={styles.statHint}>{stat.hint}</Text>
+            </View>
+          ))}
         </View>
 
         <Text style={[styles.sectionTitle, { color: Colors.light.tint }]}>
@@ -135,6 +204,66 @@ const styles = StyleSheet.create({
   menuButton: { padding: 8 },
   menuText: { fontSize: 24 },
   sectionTitle: { fontSize: 18, fontWeight: "800", marginVertical: 8 },
+  heroCard: {
+    borderRadius: 18,
+    padding: 18,
+    marginTop: 4,
+    shadowColor: "#1565D8",
+    shadowOpacity: 0.16,
+    shadowRadius: 24,
+    elevation: 12,
+  },
+  heroTopRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 16,
+  },
+  heroGreeting: {
+    fontSize: 22,
+    fontWeight: "800",
+    color: "#fff",
+    marginBottom: 4,
+  },
+  heroSubtitle: { color: "rgba(255,255,255,0.85)" },
+  heroButton: {
+    backgroundColor: "rgba(255,255,255,0.18)",
+    borderRadius: 999,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  heroButtonText: { color: "#fff", fontWeight: "700" },
+  heroInfoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    backgroundColor: "rgba(255,255,255,0.12)",
+    padding: 12,
+    borderRadius: 14,
+  },
+  heroInfoLabel: { color: "rgba(255,255,255,0.75)", fontSize: 12 },
+  heroInfoValue: { color: "#fff", fontWeight: "700", marginTop: 4 },
+  heroInfoMeta: { color: "rgba(255,255,255,0.75)", fontSize: 12 },
+  statsRow: {
+    flexDirection: "row",
+    gap: 12,
+    marginTop: 16,
+  },
+  statCard: {
+    flex: 1,
+    backgroundColor: "rgba(255,255,255,0.92)",
+    borderRadius: 16,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: "rgba(21,101,216,0.08)",
+    shadowColor: "#000",
+    shadowOpacity: 0.04,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  statValue: { fontSize: 20, fontWeight: "800", color: Colors.light.tint },
+  statLabel: { marginTop: 6, fontWeight: "700", color: "#1F2937" },
+  statHint: { marginTop: 2, color: "#6B7280", fontSize: 12 },
   tileRow: { justifyContent: "space-between", marginBottom: 12 },
   tile: {
     flex: 1,
@@ -143,12 +272,13 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff",
-    borderWidth: 0,
-    shadowColor: "#000",
-    shadowOpacity: 0.04,
-    shadowRadius: 10,
-    elevation: 6,
+    backgroundColor: "rgba(255,255,255,0.9)",
+    borderWidth: 1,
+    borderColor: "rgba(21,101,216,0.07)",
+    shadowColor: "#1565D8",
+    shadowOpacity: 0.05,
+    shadowRadius: 12,
+    elevation: 5,
     padding: 10,
   },
   tileIconPlaceholder: {
@@ -207,22 +337,5 @@ const styles = StyleSheet.create({
   newsTime: { color: "#666", fontSize: 12 },
   newsTitle: { fontSize: 18, fontWeight: "700", marginTop: 6 },
   newsBody: { color: "#444", marginTop: 8, lineHeight: 20 },
-  greetingCard: {
-    marginTop: 12,
-    backgroundColor: "#fff",
-    borderRadius: 14,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: "#E6EEF6",
-    shadowColor: "#000",
-    shadowOpacity: 0.02,
-    shadowRadius: 6,
-    elevation: 1,
-    marginBottom: 8,
-  },
-  greetingText: {
-    fontSize: 20,
-    fontWeight: "800",
-    color: Colors.light.text,
-  },
+  greetingText: { fontSize: 20, fontWeight: "800", color: Colors.light.text },
 });
