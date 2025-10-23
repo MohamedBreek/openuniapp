@@ -5,7 +5,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
-// removed unused components: CategoryFilters, CourseItem, HelloWave
+import HeaderMenu from "@/components/HeaderMenu";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import StudentCardModal from "@/components/StudentCardModal";
 import { ThemedView } from "@/components/themed-view";
@@ -14,12 +14,10 @@ import { useTranslation } from "react-i18next";
 
 export default function HomeScreen() {
   const { student } = useAuth();
-  // const { width } = useWindowDimensions(); // not used in this layout
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const { t } = useTranslation();
 
-  // Tiles to show in a 3x3 grid similar to screenshot
   const tiles = [
     { id: "t1", title: t("tiles.system"), href: "/system", icon: "calendar" },
     { id: "t2", title: t("tiles.exams"), href: "/exams", icon: "doc.text" },
@@ -79,9 +77,7 @@ export default function HomeScreen() {
             style={styles.headerLogo}
           />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Pressable style={styles.menuButton}>
-              <Text style={styles.menuText}>☰</Text>
-            </Pressable>
+            <HeaderMenu />
           </View>
         </View>
 
