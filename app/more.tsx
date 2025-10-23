@@ -1,27 +1,144 @@
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedView } from "@/components/themed-view";
 import Card from "@/components/ui/card";
+import HeroBanner from "@/components/ui/hero-banner";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function MoreScreen() {
+  const quickLinks = [
+    {
+      id: "l1",
+      title: "מערכת שעות",
+      detail: "עדכון שינויים בזמן אמת לכל הקורסים",
+      icon: "calendar",
+    },
+    {
+      id: "l2",
+      title: "ספרייה דיגיטלית",
+      detail: "גישה ל-30,000 ספרים ומאמרים אקדמיים",
+      icon: "book.fill",
+    },
+    {
+      id: "l3",
+      title: "מרכז קריירה",
+      detail: "סדנאות, מפגשים עם חברות וגיוס דרך האוניברסיטה",
+      icon: "briefcase",
+    },
+  ];
+
+  const communities = [
+    {
+      id: "c1",
+      label: "קהילת יזמות",
+      description: "מיזמי סטארט-אפ, גישה למנטורים ומשקיעים.",
+    },
+    {
+      id: "c2",
+      label: "מעגל נשים בהייטק",
+      description: "מפגשי השראה ושיתופי פעולה עם בוגרות מובילות.",
+    },
+    {
+      id: "c3",
+      label: "פורום סטודנטים בינלאומי",
+      description: "למידה בשפות, החלפת תרבויות ומיזמים גלובליים.",
+    },
+  ];
+
+  const usefulTools = [
+    {
+      id: "u1",
+      title: "מעקב משימות",
+      detail: "סנכרון עם Google Calendar והתראות חכמות",
+      icon: "checkmark.circle",
+    },
+    {
+      id: "u2",
+      title: "מדד הצלחה אקדמי",
+      detail: "ניתוח אוטומטי של ציונים והמלצות לשיפור",
+      icon: "chart.bar",
+    },
+    {
+      id: "u3",
+      title: "מרכז השמה",
+      detail: "משרות בהתאמה אישית וליווי כתיבת קורות חיים",
+      icon: "person.crop.circle.badge.checkmark",
+    },
+  ];
+
   return (
     <ParallaxScrollView>
       <ThemedView style={styles.container} useGradient>
-        <View style={styles.titleRow}>
-          <IconSymbol
-            name="ellipsis.circle"
-            size={18}
-            color={Colors.light.tint}
-          />
-          <Text style={[styles.title, { color: Colors.light.tint }]}>עוד</Text>
-        </View>
+        <HeroBanner
+          title="עוד משאבים"
+          subtitle="להוציא מהלימודים יותר"
+          description="גישה לקישורים, קהילות וכלים שמעצימים את היום-יום הסטודנטיאלי."
+        >
+          <View style={styles.heroRow}>
+            <View style={styles.heroPill}>
+              <IconSymbol name="globe" size={16} color="#fff" />
+              <Text style={styles.heroText}>שיתופי פעולה בינלאומיים</Text>
+            </View>
+            <View style={styles.heroPill}>
+              <IconSymbol name="sparkles" size={16} color="#fff" />
+              <Text style={styles.heroText}>כלי למידה חכמים</Text>
+            </View>
+          </View>
+        </HeroBanner>
+
         <Card>
-          <Text style={styles.cardText}>
-            שירותים וקישורים נוספים לסטודנטים.
-          </Text>
+          <Text style={styles.sectionTitle}>קישורים מהירים</Text>
+          {quickLinks.map((link) => (
+            <View key={link.id} style={styles.rowWithIcon}>
+              <View style={styles.iconPill}>
+                <IconSymbol
+                  name={link.icon}
+                  size={18}
+                  color={Colors.light.tint}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.itemTitle}>{link.title}</Text>
+                <Text style={styles.itemDetail}>{link.detail}</Text>
+              </View>
+              <IconSymbol
+                name="chevron.right"
+                size={18}
+                color={Colors.light.tint}
+              />
+            </View>
+          ))}
+        </Card>
+
+        <Card>
+          <Text style={styles.sectionTitle}>קהילות ויוזמות</Text>
+          {communities.map((community) => (
+            <View key={community.id} style={styles.communityRow}>
+              <Text style={styles.itemTitle}>{community.label}</Text>
+              <Text style={styles.itemDetail}>{community.description}</Text>
+            </View>
+          ))}
+        </Card>
+
+        <Card>
+          <Text style={styles.sectionTitle}>כלים שימושיים</Text>
+          {usefulTools.map((tool) => (
+            <View key={tool.id} style={styles.rowWithIcon}>
+              <View style={styles.iconPill}>
+                <IconSymbol
+                  name={tool.icon}
+                  size={18}
+                  color={Colors.light.tint}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.itemTitle}>{tool.title}</Text>
+                <Text style={styles.itemDetail}>{tool.detail}</Text>
+              </View>
+            </View>
+          ))}
         </Card>
       </ThemedView>
     </ParallaxScrollView>
@@ -29,28 +146,46 @@ export default function MoreScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 16, backgroundColor: Colors.light.background },
-  title: {
-    fontSize: 20,
-    fontWeight: "800",
-    color: Colors.light.text,
-    marginBottom: 12,
+  container: { padding: 20, gap: 18 },
+  heroRow: {
+    marginTop: 16,
+    flexDirection: "row",
+    gap: 10,
+    flexWrap: "wrap",
   },
-  titleRow: {
+  heroPill: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
-    marginBottom: 8,
+    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 999,
+    backgroundColor: "rgba(255,255,255,0.18)",
   },
-  card: {
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 12,
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    marginBottom: 12,
+  heroText: { color: "#fff", fontWeight: "600" },
+  sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 12 },
+  rowWithIcon: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderColor: "rgba(21,101,216,0.08)",
   },
-  cardText: { color: "#444" },
+  iconPill: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(21,101,216,0.12)",
+  },
+  itemTitle: { fontWeight: "700", color: Colors.light.text },
+  itemDetail: { color: "#4B5563", marginTop: 4, lineHeight: 18 },
+  communityRow: {
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderColor: "rgba(21,101,216,0.08)",
+    gap: 6,
+  },
 });

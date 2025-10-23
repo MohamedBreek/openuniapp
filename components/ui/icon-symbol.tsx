@@ -30,6 +30,18 @@ const MAPPING = {
   sparkles: "auto-awesome",
   star: "star",
   "square.and.arrow.down": "file-download",
+  "rectangle.portrait.and.arrow.right": "logout",
+  "phone.fill": "call",
+  envelope: "mail",
+  "location.fill": "location-on",
+  "clock.fill": "schedule",
+  "person.2.fill": "groups",
+  link: "link",
+  "bolt.fill": "bolt",
+  "book.fill": "menu-book",
+  globe: "public",
+  "chart.bar": "bar-chart",
+  "doc.richtext": "article",
 } as IconMapping;
 
 /**

@@ -5,10 +5,16 @@ import HeroBanner from "@/components/ui/hero-banner";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useAuth } from "@/context/auth";
+import { Asset } from "expo-asset";
+import * as FileSystem from "expo-file-system/legacy";
+import { Image as ExpoImage } from "expo-image";
+import * as Sharing from "expo-sharing";
 import React from "react";
 import {
-  Image,
+  ActivityIndicator,
+  Alert,
   ImageSourcePropType,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -17,12 +23,99 @@ import {
 
 export default function StudentCardScreen() {
   const { student } = useAuth();
-  const cardImageSource: ImageSourcePropType =
-    typeof student?.cardImageUrl === "number"
-      ? student.cardImageUrl
-      : student?.cardImageUrl
-      ? { uri: student.cardImageUrl }
-      : require("@/assets/images/studentcard.png");
+
+  const cardImageSource: ImageSourcePropType = React.useMemo(() => {
+    if (typeof student?.cardImageUrl === "number") {
+      return student.cardImageUrl;
+    }
+    if (typeof student?.cardImageUrl === "string" && student.cardImageUrl) {
+      return { uri: student.cardImageUrl };
+    }
+    return require("@/assets/images/studentcard.png");
+  }, [student?.cardImageUrl]);
+
+  const [downloading, setDownloading] = React.useState(false);
+
+  const resolveCardImageUri = React.useCallback(async () => {
+    if (typeof cardImageSource === "number") {
+      const asset = Asset.fromModule(cardImageSource);
+      if (!asset.localUri) {
+        await asset.downloadAsync();
+      }
+      return asset.localUri ?? asset.uri;
+    }
+
+    if (Array.isArray(cardImageSource)) {
+      const first = cardImageSource[0] as any;
+      if (first?.uri) {
+        return first.uri as string;
+      }
+    }
+
+    if (
+      typeof cardImageSource === "object" &&
+      cardImageSource !== null &&
+      "uri" in (cardImageSource as Record<string, unknown>)
+    ) {
+      return (cardImageSource as { uri?: string }).uri;
+    }
+
+    return undefined;
+  }, [cardImageSource]);
+
+  const handleDownload = React.useCallback(async () => {
+    if (downloading) return;
+
+    try {
+      const sourceUri = await resolveCardImageUri();
+      if (!sourceUri) {
+        Alert.alert("הורדה נכשלה", "לא נמצא קובץ כרטיס לשמור.");
+        return;
+      }
+
+      if (Platform.OS === "web") {
+        if (typeof window !== "undefined") {
+          window.open(sourceUri, "_blank", "noopener,noreferrer");
+        }
+        return;
+      }
+
+      setDownloading(true);
+
+      const fileName = `student-card-${Date.now()}.png`;
+      const baseDirectory =
+        FileSystem.documentDirectory ?? FileSystem.cacheDirectory;
+      if (!baseDirectory) {
+        Alert.alert("הורדה נכשלה", "אין הרשאה לשמור קבצים במכשיר זה כרגע.");
+        return;
+      }
+
+      const destinationUri = `${baseDirectory}${fileName}`;
+
+      if (sourceUri.startsWith("file://")) {
+        await FileSystem.copyAsync({ from: sourceUri, to: destinationUri });
+      } else {
+        await FileSystem.downloadAsync(sourceUri, destinationUri);
+      }
+
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(destinationUri);
+      } else {
+        Alert.alert(
+          "הורדה הושלמה",
+          "הכרטיס נשמר בתיקיית המסמכים של האפליקציה."
+        );
+      }
+    } catch (error) {
+      console.error("Failed to download student card", error);
+      Alert.alert(
+        "הורדה נכשלה",
+        "אנחנו מתקשים לשמור את הכרטיס כרגע. נסו שוב מאוחר יותר."
+      );
+    } finally {
+      setDownloading(false);
+    }
+  }, [downloading, resolveCardImageUri]);
 
   const features = [
     {
@@ -67,19 +160,38 @@ export default function StudentCardScreen() {
               <Text style={styles.cardTitle}>הכרטיס שלך</Text>
               <Text style={styles.cardSubtitle}>זמין גם ללא חיבור לרשת</Text>
             </View>
-            <Pressable style={styles.cardAction}>
-              <IconSymbol
-                name="square.and.arrow.down"
-                size={16}
-                color={Colors.light.tint}
-              />
-              <Text style={styles.cardActionText}>הורדה</Text>
+            <Pressable
+              style={({ pressed }) => [
+                styles.cardAction,
+                pressed && !downloading ? styles.cardActionPressed : null,
+                downloading ? styles.cardActionDisabled : null,
+              ]}
+              onPress={handleDownload}
+              disabled={downloading}
+              accessibilityRole="button"
+              accessibilityLabel="הורדת כרטיס הסטודנט"
+            >
+              <View style={styles.cardActionContent}>
+                {downloading ? (
+                  <ActivityIndicator size="small" color={Colors.light.tint} />
+                ) : (
+                  <IconSymbol
+                    name="square.and.arrow.down"
+                    size={16}
+                    color={Colors.light.tint}
+                  />
+                )}
+                <Text style={styles.cardActionText}>
+                  {downloading ? "מוריד..." : "הורדה"}
+                </Text>
+              </View>
             </Pressable>
           </View>
-          <Image
+          <ExpoImage
             source={cardImageSource}
             style={styles.image}
-            resizeMode="cover"
+            contentFit="cover"
+            transition={160}
           />
           <View style={styles.identityRow}>
             <View>
@@ -185,6 +297,13 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 999,
     backgroundColor: "rgba(21,101,216,0.12)",
+  },
+  cardActionPressed: { opacity: 0.85 },
+  cardActionDisabled: { opacity: 0.6 },
+  cardActionContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
   },
   cardActionText: { color: Colors.light.tint, fontWeight: "700" },
   image: {

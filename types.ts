@@ -41,7 +41,7 @@ export const MOCK_COURSES: Course[] = [
     title: "Intro to Computer Science",
     semester: "2025-10",
     credits: 3,
-    grade: "A",
+    grade: "90",
     status: "completed",
   },
   {
@@ -50,7 +50,7 @@ export const MOCK_COURSES: Course[] = [
     title: "Calculus II",
     semester: "2025-10",
     credits: 4,
-    grade: "B+",
+    grade: "85",
     status: "enrolled",
   },
   {

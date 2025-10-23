@@ -20,7 +20,7 @@ export default function HomeScreen() {
   // translations removed; use Hebrew literals
 
   const tiles = [
-    { id: "t1", title: "לוח שלי", href: "/system", icon: "calendar" },
+    { id: "t1", title: "לוח שלי", href: "/calendar", icon: "calendar" },
     { id: "t2", title: "מבחנים", href: "/exams", icon: "doc.text" },
     { id: "t3", title: "ציונים", href: "/grades", icon: "checkmark.seal" },
     { id: "t4", title: "תמיכה", href: "/support", icon: "bubble.left" },
@@ -100,12 +100,6 @@ export default function HomeScreen() {
               </Text>
               <Text style={styles.heroSubtitle}>כך נראה היום האקדמי שלך</Text>
             </View>
-            <Pressable
-              style={styles.heroButton}
-              onPress={() => setModalVisible(true)}
-            >
-              <Text style={styles.heroButtonText}>כרטיס סטודנט</Text>
-            </Pressable>
           </View>
           {nextCourse ? (
             <View style={styles.heroInfoRow}>

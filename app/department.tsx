@@ -1,27 +1,156 @@
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedView } from "@/components/themed-view";
 import Card from "@/components/ui/card";
+import HeroBanner from "@/components/ui/hero-banner";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function DepartmentScreen() {
+  const leadership = [
+    {
+      id: "l1",
+      name: 'ד"ר ענת שפירא',
+      role: "ראש המחלקה",
+      focus: "חדשנות פדגוגית ותכנון תוכניות לימוד",
+    },
+    {
+      id: "l2",
+      name: "פרופ' גיל נחמיאס",
+      role: "מנהל אקדמי",
+      focus: "חוויית סטודנטים והבטחת איכות ההוראה",
+    },
+    {
+      id: "l3",
+      name: "גב' ליאן דנון",
+      role: "אחראית קהילות בוגרים",
+      focus: "חיבורים בין תעשייה לסטודנטים",
+    },
+  ];
+
+  const specializationTracks = [
+    {
+      id: "t1",
+      title: "מערכות מידע",
+      description: "שילוב טכנולוגיה ועסקים עם התמחות בניתוח נתונים.",
+      icon: "bolt.fill",
+    },
+    {
+      id: "t2",
+      title: "חינוך דיגיטלי",
+      description: "התאמת שיטות הוראה לעולם היברידי וחווייתי.",
+      icon: "book.fill",
+    },
+    {
+      id: "t3",
+      title: "חברה ורווחה",
+      description: "מנהיגות חברתית, קידום שוויון ותכנון קהילתי.",
+      icon: "person.2.fill",
+    },
+  ];
+
+  const resources = [
+    {
+      id: "r1",
+      label: "זום שבועי עם ראש המחלקה",
+      detail: "כל ראשון 18:00, עדכונים ושאלות פתוחות.",
+      icon: "camera.fill",
+    },
+    {
+      id: "r2",
+      label: "מאגר תרגולים מוקלטים",
+      detail: "גישה לכל הקורסים בעברית ובאנגלית.",
+      icon: "link",
+    },
+    {
+      id: "r3",
+      label: "קהילת Slack לסטודנטים",
+      detail: "עבודה בקבוצות, תמיכה הדדית ופרויקטים משותפים.",
+      icon: "bubble.left",
+    },
+  ];
+
+  const metrics = [
+    { id: "m1", value: "1,260", label: "סטודנטים פעילים" },
+    { id: "m2", value: "96%", label: "שביעות רצון מתמיכה" },
+    { id: "m3", value: "42", label: "שיתופי פעולה עם התעשייה" },
+  ];
+
   return (
     <ParallaxScrollView>
       <ThemedView style={styles.container} useGradient>
-        <View style={styles.titleRow}>
-          <IconSymbol
-            name="graduationcap"
-            size={18}
-            color={Colors.light.tint}
-          />
-          <Text style={[styles.title, { color: Colors.light.tint }]}>
-            המחלקה
-          </Text>
-        </View>
+        <HeroBanner
+          title="המחלקה"
+          subtitle="קהילה אקדמית מתקדמת"
+          description="הכירו את צוות ההנהלה, מסלולי ההתמחות והמשאבים שמזניקים את הסטודנטים קדימה."
+        >
+          <View style={styles.heroMetaRow}>
+            {metrics.map((metric) => (
+              <View key={metric.id} style={styles.metricPill}>
+                <Text style={styles.metricValue}>{metric.value}</Text>
+                <Text style={styles.metricLabel}>{metric.label}</Text>
+              </View>
+            ))}
+          </View>
+        </HeroBanner>
+
         <Card>
-          <Text style={styles.cardText}>מידע על המחלקה ואנשי הצוות.</Text>
+          <Text style={styles.sectionTitle}>צוות מוביל</Text>
+          {leadership.map((member) => (
+            <View key={member.id} style={styles.leadershipRow}>
+              <View style={styles.leadershipIcon}>
+                <IconSymbol
+                  name="graduationcap"
+                  size={18}
+                  color={Colors.light.tint}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.itemTitle}>{member.name}</Text>
+                <Text style={styles.itemMeta}>{member.role}</Text>
+                <Text style={styles.itemDetail}>{member.focus}</Text>
+              </View>
+            </View>
+          ))}
+        </Card>
+
+        <Card>
+          <Text style={styles.sectionTitle}>מסלולי התמחות</Text>
+          {specializationTracks.map((track) => (
+            <View key={track.id} style={styles.trackRow}>
+              <View style={styles.iconPill}>
+                <IconSymbol
+                  name={track.icon}
+                  size={18}
+                  color={Colors.light.tint}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.itemTitle}>{track.title}</Text>
+                <Text style={styles.itemDetail}>{track.description}</Text>
+              </View>
+            </View>
+          ))}
+        </Card>
+
+        <Card>
+          <Text style={styles.sectionTitle}>משאבים מחוזקים</Text>
+          {resources.map((resource) => (
+            <View key={resource.id} style={styles.resourceRow}>
+              <View style={styles.iconPill}>
+                <IconSymbol
+                  name={resource.icon}
+                  size={18}
+                  color={Colors.light.tint}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.itemTitle}>{resource.label}</Text>
+                <Text style={styles.itemDetail}>{resource.detail}</Text>
+              </View>
+            </View>
+          ))}
         </Card>
       </ThemedView>
     </ParallaxScrollView>
@@ -29,28 +158,64 @@ export default function DepartmentScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 16, backgroundColor: Colors.light.background },
-  title: {
-    fontSize: 20,
-    fontWeight: "800",
-    color: Colors.light.text,
-    marginBottom: 12,
-  },
-  titleRow: {
+  container: { padding: 20, gap: 18 },
+  heroMetaRow: {
+    marginTop: 18,
     flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 12,
+  },
+  metricPill: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 18,
+    backgroundColor: "rgba(255,255,255,0.18)",
+    minWidth: 120,
+  },
+  metricValue: { color: "#fff", fontWeight: "800", fontSize: 18 },
+  metricLabel: { color: "rgba(255,255,255,0.78)", fontSize: 12, marginTop: 4 },
+  sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 12 },
+  leadershipRow: {
+    flexDirection: "row",
+    gap: 12,
+    alignItems: "flex-start",
+    paddingVertical: 13,
+    borderBottomWidth: 1,
+    borderColor: "rgba(21,101,216,0.08)",
+  },
+  leadershipIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: "center",
-    gap: 8,
-    marginBottom: 8,
+    justifyContent: "center",
+    backgroundColor: "rgba(21,101,216,0.12)",
   },
-  card: {
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 12,
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    marginBottom: 12,
+  itemTitle: { fontWeight: "700", color: Colors.light.text },
+  itemMeta: { color: Colors.light.tint, fontWeight: "600", marginTop: 2 },
+  itemDetail: { color: "#4B5563", marginTop: 4, lineHeight: 18 },
+  trackRow: {
+    flexDirection: "row",
+    gap: 12,
+    alignItems: "flex-start",
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderColor: "rgba(21,101,216,0.08)",
   },
-  cardText: { color: "#444" },
+  iconPill: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(21,101,216,0.12)",
+  },
+  resourceRow: {
+    flexDirection: "row",
+    gap: 12,
+    alignItems: "flex-start",
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderColor: "rgba(21,101,216,0.08)",
+  },
 });
