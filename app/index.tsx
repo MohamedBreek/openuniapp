@@ -10,49 +10,24 @@ import ParallaxScrollView from "@/components/parallax-scroll-view";
 import StudentCardModal from "@/components/StudentCardModal";
 import { ThemedView } from "@/components/themed-view";
 import { useAuth } from "@/context/auth";
-import { useTranslation } from "react-i18next";
+// translations removed - app is Hebrew-only
 
 export default function HomeScreen() {
   const { student } = useAuth();
   const [modalVisible, setModalVisible] = React.useState(false);
 
-  const { t } = useTranslation();
+  // translations removed; use Hebrew literals
 
   const tiles = [
-    { id: "t1", title: t("tiles.system"), href: "/system", icon: "calendar" },
-    { id: "t2", title: t("tiles.exams"), href: "/exams", icon: "doc.text" },
-    {
-      id: "t3",
-      title: t("tiles.grades"),
-      href: "/grades",
-      icon: "checkmark.seal",
-    },
-    {
-      id: "t4",
-      title: t("tiles.support"),
-      href: "/support",
-      icon: "bubble.left",
-    },
-    { id: "t5", title: t("tiles.discount"), href: "/discount", icon: "bus" },
-    {
-      id: "t6",
-      title: t("tiles.studentCard"),
-      href: "/student-card",
-      icon: "id.card",
-    },
-    { id: "t7", title: t("tiles.dean"), href: "/dean", icon: "hand.heart" },
-    {
-      id: "t8",
-      title: t("tiles.department"),
-      href: "/department",
-      icon: "graduationcap",
-    },
-    {
-      id: "t9",
-      title: t("tiles.more"),
-      href: "/more",
-      icon: "ellipsis.circle",
-    },
+    { id: "t1", title: "לוח שלי", href: "/system", icon: "calendar" },
+    { id: "t2", title: "מבחנים", href: "/exams", icon: "doc.text" },
+    { id: "t3", title: "ציונים", href: "/grades", icon: "checkmark.seal" },
+    { id: "t4", title: "תמיכה", href: "/support", icon: "bubble.left" },
+    { id: "t5", title: "הנחות", href: "/discount", icon: "bus" },
+    { id: "t6", title: "כרטיס סטודנט", href: "/student-card", icon: "id.card" },
+    { id: "t7", title: "דקאן", href: "/dean", icon: "hand.heart" },
+    { id: "t8", title: "מחלקה", href: "/department", icon: "graduationcap" },
+    { id: "t9", title: "עוד", href: "/more", icon: "ellipsis.circle" },
   ];
 
   const router = useRouter();
@@ -73,7 +48,7 @@ export default function HomeScreen() {
             />
           </Pressable>
           <Image
-            source={require("@/assets/images/openu-logo.jpeg")}
+            source={require("@/assets/images/openu.png")}
             style={styles.headerLogo}
           />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -81,7 +56,15 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <Text style={styles.sectionTitle}>{t("importantApps")}</Text>
+        <View style={styles.greetingCard}>
+          <Text style={styles.greetingText}>
+            שלום רב, {student?.fullName ?? "סטודנט"}
+          </Text>
+        </View>
+
+        <Text style={[styles.sectionTitle, { color: Colors.light.tint }]}>
+          יישומים חשובים
+        </Text>
 
         <FlatList
           data={tiles}
@@ -91,6 +74,8 @@ export default function HomeScreen() {
           renderItem={({ item }) => (
             <Pressable
               style={styles.tile}
+              android_ripple={{ color: "rgba(0,0,0,0.06)" }}
+              accessibilityRole="button"
               onPress={() => {
                 try {
                   router.push(item.href as any);
@@ -116,12 +101,13 @@ export default function HomeScreen() {
 
         <View style={styles.newsCard}>
           <View style={styles.newsHeader}>
-            <Text style={styles.newsSource}>{t("newsSource")}</Text>
+            <Text style={styles.newsSource}>חדשות האוניברסיטה</Text>
             <Text style={styles.newsTime}>11:30 ,25/09/24</Text>
           </View>
-          <Text style={styles.newsTitle}>{t("newsTitle")}</Text>
+          <Text style={styles.newsTitle}>פתיחת סמסטר חדש</Text>
           <Text style={styles.newsBody} numberOfLines={4}>
-            {t("newsBody")}
+            פתיחת סמסטר אוקטובר — הרשמה לקורסים נפתחה. יש להשלים תהליך רישום עד
+            סוף החודש.
           </Text>
         </View>
 
@@ -160,10 +146,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
-    shadowColor: "#ffffffff",
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 4,
+    borderWidth: 0,
+    shadowColor: "#000",
+    shadowOpacity: 0.04,
+    shadowRadius: 10,
+    elevation: 6,
+    padding: 10,
   },
   tileIconPlaceholder: {
     width: 48,
@@ -173,28 +161,39 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   tileIconWrap: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 8,
+    marginBottom: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 3,
   },
-  tileText: { textAlign: "center", fontWeight: "700" },
+  tileText: {
+    textAlign: "center",
+    fontWeight: "700",
+    fontSize: 13,
+    marginTop: 4,
+  },
   newsCard: {
     marginTop: 12,
     backgroundColor: "#fff",
     borderRadius: 14,
     padding: 16,
-    shadowColor: "#ffffffff",
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    elevation: 6,
+    borderWidth: 1,
+    borderColor: "#E6EEF6",
+    shadowColor: "#000",
+    shadowOpacity: 0.03,
+    shadowRadius: 6,
+    elevation: 2,
   },
   newsHeader: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     gap: 8,
     marginBottom: 8,
   },
@@ -208,6 +207,24 @@ const styles = StyleSheet.create({
   },
   newsSource: { flex: 1, textAlign: "left", color: "#333", fontWeight: "700" },
   newsTime: { color: "#666", fontSize: 12 },
-  newsTitle: { fontSize: 18, fontWeight: "800", marginTop: 6 },
-  newsBody: { color: "#444", marginTop: 6, lineHeight: 20 },
+  newsTitle: { fontSize: 18, fontWeight: "700", marginTop: 6 },
+  newsBody: { color: "#444", marginTop: 8, lineHeight: 20 },
+  greetingCard: {
+    marginTop: 12,
+    backgroundColor: "#fff",
+    borderRadius: 14,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: "#E6EEF6",
+    shadowColor: "#000",
+    shadowOpacity: 0.02,
+    shadowRadius: 6,
+    elevation: 1,
+    marginBottom: 8,
+  },
+  greetingText: {
+    fontSize: 20,
+    fontWeight: "800",
+    color: Colors.light.text,
+  },
 });

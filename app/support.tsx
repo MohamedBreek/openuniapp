@@ -8,11 +8,9 @@ export default function SupportScreen() {
   return (
     <ParallaxScrollView>
       <ThemedView style={styles.container}>
-        <Text style={styles.title}>Support / תמיכה</Text>
+        <Text style={[styles.title, { color: Colors.light.tint }]}>תמיכה</Text>
         <View style={styles.card}>
-          <Text style={styles.cardText}>
-            Support center information and FAQs.
-          </Text>
+          <Text style={styles.cardText}>מרכז תמיכה ומענה לשאלות נפוצות.</Text>
         </View>
       </ThemedView>
     </ParallaxScrollView>
@@ -21,12 +19,21 @@ export default function SupportScreen() {
 
 const styles = StyleSheet.create({
   container: { padding: 16, backgroundColor: Colors.light.background },
-  title: { fontSize: 20, fontWeight: "800", color: Colors.light.text },
+  title: {
+    fontSize: 20,
+    fontWeight: "800",
+    color: Colors.light.text,
+    marginBottom: 12,
+  },
   card: {
     backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
     elevation: 4,
+    shadowColor: "#000",
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    marginBottom: 12,
   },
   cardText: { color: "#444" },
 });

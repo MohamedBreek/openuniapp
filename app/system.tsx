@@ -8,10 +8,10 @@ export default function SystemScreen() {
   return (
     <ParallaxScrollView>
       <ThemedView style={styles.container}>
-        <Text style={styles.title}>System / מערכת</Text>
+        <Text style={[styles.title, { color: Colors.light.tint }]}>מערכת</Text>
         <View style={styles.card}>
           <Text style={styles.cardText}>
-            This is the system page. Replace with real content.
+            דפי המערכת והמידע המרכזי יוצגו כאן.
           </Text>
         </View>
       </ThemedView>
@@ -21,12 +21,21 @@ export default function SystemScreen() {
 
 const styles = StyleSheet.create({
   container: { padding: 16, backgroundColor: Colors.light.background },
-  title: { fontSize: 20, fontWeight: "800", color: Colors.light.text },
+  title: {
+    fontSize: 20,
+    fontWeight: "800",
+    color: Colors.light.text,
+    marginBottom: 12,
+  },
   card: {
     backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
     elevation: 4,
+    shadowColor: "#000",
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    marginBottom: 12,
   },
   cardText: { color: "#444" },
 });

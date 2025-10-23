@@ -4,8 +4,12 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
 import { AuthProvider } from "@/context/auth";
-import "@/i18n";
-import { View } from "react-native";
+import {
+  Alef_400Regular,
+  Alef_700Bold,
+  useFonts,
+} from "@expo-google-fonts/alef";
+import { Text, View } from "react-native";
 // light mode forced; do not use system color scheme
 
 export const unstable_settings = {
@@ -15,10 +19,22 @@ export const unstable_settings = {
 export default function RootLayout() {
   // Force light theme across the app
   // const colorScheme = useColorScheme();
+  const [fontsLoaded] = useFonts({ Alef_400Regular, Alef_700Bold });
 
   return (
     <ThemeProvider value={DefaultTheme}>
       <AuthProvider>
+        {!fontsLoaded ? (
+          <View
+            style={{
+              height: 48,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text>טוען גופנים...</Text>
+          </View>
+        ) : null}
         <View
           style={{
             height: 48,

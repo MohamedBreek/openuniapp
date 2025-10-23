@@ -8,11 +8,9 @@ export default function DiscountScreen() {
   return (
     <ParallaxScrollView>
       <ThemedView style={styles.container}>
-        <Text style={styles.title}>Discounts / הנחות</Text>
+        <Text style={[styles.title, { color: Colors.light.tint }]}>הנחות</Text>
         <View style={styles.card}>
-          <Text style={styles.cardText}>
-            Student discount programs and forms.
-          </Text>
+          <Text style={styles.cardText}>תכניות והטבות לסטודנטים.</Text>
         </View>
       </ThemedView>
     </ParallaxScrollView>
@@ -21,12 +19,21 @@ export default function DiscountScreen() {
 
 const styles = StyleSheet.create({
   container: { padding: 16, backgroundColor: Colors.light.background },
-  title: { fontSize: 20, fontWeight: "800", color: Colors.light.text },
+  title: {
+    fontSize: 20,
+    fontWeight: "800",
+    color: Colors.light.text,
+    marginBottom: 12,
+  },
   card: {
     backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
     elevation: 4,
+    shadowColor: "#000",
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    marginBottom: 12,
   },
   cardText: { color: "#444" },
 });

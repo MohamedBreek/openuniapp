@@ -1,5 +1,4 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 
 type Props = {
@@ -17,13 +16,13 @@ export default function StudentCardModal({
   name,
   id,
 }: Props) {
-  const { t } = useTranslation();
+  // translations removed; Hebrew-only
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <Pressable style={styles.backdrop} onPress={onClose}>
         <View style={styles.container}>
           <Pressable style={styles.close} onPress={onClose}>
-            <Text style={styles.closeText}>{t("close")}</Text>
+            <Text style={styles.closeText}>סגור</Text>
           </Pressable>
           {imageUrl ? (
             <Image

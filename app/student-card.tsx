@@ -10,7 +10,9 @@ export default function StudentCardScreen() {
   return (
     <ParallaxScrollView>
       <ThemedView style={styles.container}>
-        <Text style={styles.title}>Student Card / כרטיס סטודנט</Text>
+        <Text style={[styles.title, { color: Colors.light.tint }]}>
+          כרטיס סטודנט
+        </Text>
         <View style={styles.card}>
           <Image
             source={{
@@ -29,13 +31,22 @@ export default function StudentCardScreen() {
 
 const styles = StyleSheet.create({
   container: { padding: 16, backgroundColor: Colors.light.background },
-  title: { fontSize: 20, fontWeight: "800", color: Colors.light.text },
+  title: {
+    fontSize: 20,
+    fontWeight: "800",
+    color: Colors.light.text,
+    marginBottom: 12,
+  },
   card: {
     backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
     elevation: 6,
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    marginBottom: 12,
   },
   image: { width: 240, height: 160, borderRadius: 8, marginBottom: 12 },
   name: { fontWeight: "800" },

@@ -10,48 +10,45 @@ import ParallaxScrollView from "@/components/parallax-scroll-view";
 import StudentCardModal from "@/components/StudentCardModal";
 import { ThemedView } from "@/components/themed-view";
 import { useAuth } from "@/context/auth";
-import { useTranslation } from "react-i18next";
 
 export default function HomeScreen() {
   const { student } = useAuth();
   // const { width } = useWindowDimensions(); // not used in this layout
   const [modalVisible, setModalVisible] = React.useState(false);
 
-  const { t } = useTranslation();
-
   // Tiles to show in a 3x3 grid similar to screenshot
   const tiles = [
-    { id: "t1", title: t("tiles.system"), href: "/system", icon: "calendar" },
-    { id: "t2", title: t("tiles.exams"), href: "/exams", icon: "doc.text" },
+    { id: "t1", title: "מערכת", href: "/system", icon: "calendar" },
+    { id: "t2", title: "מבחנים", href: "/exams", icon: "doc.text" },
     {
       id: "t3",
-      title: t("tiles.grades"),
+      title: "ציונים",
       href: "/grades",
       icon: "checkmark.seal",
     },
     {
       id: "t4",
-      title: t("tiles.support"),
+      title: "תמיכה",
       href: "/support",
       icon: "bubble.left",
     },
-    { id: "t5", title: t("tiles.discount"), href: "/discount", icon: "bus" },
+    { id: "t5", title: "הנחות", href: "/discount", icon: "bus" },
     {
       id: "t6",
-      title: t("tiles.studentCard"),
+      title: "כרטיס סטודנט",
       href: "/student-card",
       icon: "id.card",
     },
-    { id: "t7", title: t("tiles.dean"), href: "/dean", icon: "hand.heart" },
+    { id: "t7", title: "דקאן", href: "/dean", icon: "hand.heart" },
     {
       id: "t8",
-      title: t("tiles.department"),
+      title: "מחלקה",
       href: "/department",
       icon: "graduationcap",
     },
     {
       id: "t9",
-      title: t("tiles.more"),
+      title: "עוד",
       href: "/more",
       icon: "ellipsis.circle",
     },
@@ -85,7 +82,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <Text style={styles.sectionTitle}>{t("importantApps")}</Text>
+        <Text style={styles.sectionTitle}>אפליקציות חשובות</Text>
 
         <FlatList
           data={tiles}
@@ -120,12 +117,12 @@ export default function HomeScreen() {
 
         <View style={styles.newsCard}>
           <View style={styles.newsHeader}>
-            <Text style={styles.newsSource}>{t("newsSource")}</Text>
+            <Text style={styles.newsSource}>מקור החדשות</Text>
             <Text style={styles.newsTime}>11:30 ,25/09/24</Text>
           </View>
-          <Text style={styles.newsTitle}>{t("newsTitle")}</Text>
+          <Text style={styles.newsTitle}>כותרת החדשות</Text>
           <Text style={styles.newsBody} numberOfLines={4}>
-            {t("newsBody")}
+            גוף החדשות
           </Text>
         </View>
 

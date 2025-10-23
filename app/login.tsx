@@ -35,7 +35,7 @@ function LoginForm() {
     >
       <View style={styles.card}>
         <Image
-          source={require("@/assets/images/openu-logo.jpeg")}
+          source={require("@/assets/images/openu.png")}
           style={styles.logo}
           resizeMode="contain"
         />

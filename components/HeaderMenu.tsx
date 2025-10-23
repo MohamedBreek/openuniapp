@@ -28,6 +28,42 @@ export default function HeaderMenu(): React.ReactElement {
               onPress={() => {
                 setOpen(false);
                 try {
+                  router.push("/grades");
+                } catch {}
+              }}
+            >
+              <Text style={styles.itemText}>ציונים</Text>
+            </Pressable>
+
+            <Pressable
+              style={styles.item}
+              onPress={() => {
+                setOpen(false);
+                try {
+                  router.push("/exams");
+                } catch {}
+              }}
+            >
+              <Text style={styles.itemText}>מבחנים</Text>
+            </Pressable>
+
+            <Pressable
+              style={styles.item}
+              onPress={() => {
+                setOpen(false);
+                try {
+                  router.push("/system");
+                } catch {}
+                }}
+            >
+              <Text style={styles.itemText}>לוח שלי</Text>
+            </Pressable>
+
+            <Pressable
+              style={styles.item}
+              onPress={() => {
+                setOpen(false);
+                try {
                   router.push("/student-card");
                 } catch {}
               }}
