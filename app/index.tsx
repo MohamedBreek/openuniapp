@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     elevation: 12,
   },
   heroTopRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 12,
     marginBottom: 16,
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
   },
   heroButtonText: { color: "#fff", fontWeight: "700" },
   heroInfoRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 12,
     backgroundColor: "rgba(255,255,255,0.12)",
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
   },
   heroInfoMeta: { color: "rgba(255,255,255,0.75)", fontSize: 12 },
   statsRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     gap: 12,
     marginTop: 16,
   },
@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
   },
   tileListContent: { paddingBottom: 4 },
   tileRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     justifyContent: "space-between",
     marginBottom: 12,
   },

@@ -45,8 +45,52 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
-            name="modal"
-            options={{ presentation: "modal", title: "Modal" }}
+            name="grades"
+            options={{
+              title: "ציונים",
+            }}
+          />
+          <Stack.Screen
+            name="support"
+            options={{
+              title: "תמיכה",
+            }}
+          />
+          <Stack.Screen
+            name="exams"
+            options={{
+              title: "מבחנים",
+            }}
+          />
+          <Stack.Screen
+            name="student-card"
+            options={{
+              title: "כרטיס סטודנט",
+            }}
+          />
+          <Stack.Screen
+            name="discount"
+            options={{
+              title: "הנחות לסטודנטים",
+            }}
+          />
+          <Stack.Screen
+            name="dean"
+            options={{
+              title: "דיקן",
+            }}
+          />
+          <Stack.Screen
+            name="department"
+            options={{
+              title: "המחלקה שלי",
+            }}
+          />
+          <Stack.Screen
+            name="more"
+            options={{
+              title: "עוד",
+            }}
           />
         </Stack>
       </AuthProvider>
