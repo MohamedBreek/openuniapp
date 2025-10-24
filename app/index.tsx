@@ -25,7 +25,7 @@ const TILE_DATA = [
   { id: "t3", title: "ציונים", href: "/grades", icon: "checkmark.seal" },
   { id: "t4", title: "תמיכה", href: "/support", icon: "bubble.left" },
   { id: "t5", title: "הנחות", href: "/discount", icon: "bus" },
-  { id: "t6", title: "כרטיס סטודנט", href: "/student-card", icon: "id.card" },
+  { id: "t6", title: "ת.סט", href: "/student-card", icon: "id.card" },
   { id: "t7", title: "דקאן", href: "/dean", icon: "hand.heart" },
   { id: "t8", title: "מחלקה", href: "/department", icon: "graduationcap" },
   { id: "t9", title: "עוד", href: "/more", icon: "ellipsis.circle" },
@@ -64,11 +64,11 @@ export default function HomeScreen() {
     [courses]
   );
   const activeCourses = React.useMemo(
-    () => courseList.filter((c) => c.status !== "completed"),
+    () => courseList.filter((c) => c.status !== "הושלם"),
     [courseList]
   );
   const completedCourses = React.useMemo(
-    () => courseList.filter((c) => c.status === "completed"),
+    () => courseList.filter((c) => c.status === "הושלם"),
     [courseList]
   );
   const nextCourse = activeCourses[0];
@@ -252,7 +252,13 @@ const styles = StyleSheet.create({
   headerLogo: { height: 44, width: 250 },
   menuButton: { padding: 8 },
   menuText: { fontSize: 24 },
-  sectionTitle: { fontSize: 18, fontWeight: "800", marginVertical: 8 },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "800",
+    marginVertical: 8,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   heroCard: {
     borderRadius: 18,
     padding: 18,
@@ -274,7 +280,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginBottom: 4,
   },
-  heroSubtitle: { color: "rgba(255,255,255,0.85)" },
+  heroSubtitle: {
+    color: "rgba(255,255,255,0.85)",
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   heroButton: {
     backgroundColor: "rgba(255,255,255,0.18)",
     borderRadius: 999,
@@ -290,8 +300,19 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 14,
   },
-  heroInfoLabel: { color: "rgba(255,255,255,0.75)", fontSize: 12 },
-  heroInfoValue: { color: "#fff", fontWeight: "700", marginTop: 4 },
+  heroInfoLabel: {
+    color: "rgba(255,255,255,0.75)",
+    fontSize: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  heroInfoValue: {
+    color: "#fff",
+    fontWeight: "700",
+    marginTop: 4,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   heroInfoMeta: { color: "rgba(255,255,255,0.75)", fontSize: 12 },
   statsRow: {
     flexDirection: "row",
@@ -310,9 +331,27 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 2,
   },
-  statValue: { fontSize: 20, fontWeight: "800", color: Colors.light.tint },
-  statLabel: { marginTop: 6, fontWeight: "700", color: "#1F2937" },
-  statHint: { marginTop: 2, color: "#6B7280", fontSize: 12 },
+  statValue: {
+    fontSize: 20,
+    fontWeight: "800",
+    color: Colors.light.tint,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  statLabel: {
+    marginTop: 6,
+    fontWeight: "700",
+    color: "#1F2937",
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  statHint: {
+    marginTop: 2,
+    color: "#6B7280",
+    fontSize: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   tileListContent: { paddingBottom: 4 },
   tileRow: {
     flexDirection: "row",
@@ -358,7 +397,7 @@ const styles = StyleSheet.create({
   tileText: {
     textAlign: "center",
     fontWeight: "700",
-    fontSize: 13,
+    fontSize: 12,
     marginTop: 0,
   },
   newsCard: {
@@ -390,7 +429,19 @@ const styles = StyleSheet.create({
   },
   newsSource: { flex: 1, textAlign: "left", color: "#333", fontWeight: "700" },
   newsTime: { color: "#666", fontSize: 12 },
-  newsTitle: { fontSize: 18, fontWeight: "700", marginTop: 6 },
-  newsBody: { color: "#444", marginTop: 8, lineHeight: 20 },
+  newsTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    marginTop: 6,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  newsBody: {
+    color: "#444",
+    marginTop: 8,
+    lineHeight: 20,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   greetingText: { fontSize: 20, fontWeight: "800", color: Colors.light.text },
 });

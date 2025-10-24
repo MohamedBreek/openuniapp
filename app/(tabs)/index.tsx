@@ -64,11 +64,11 @@ export default function HomeScreen() {
     [courses]
   );
   const activeCourses = React.useMemo(
-    () => courseList.filter((c) => c.status !== "completed"),
+    () => courseList.filter((c) => c.status !== "הושלם"),
     [courseList]
   );
   const completedCourses = React.useMemo(
-    () => courseList.filter((c) => c.status === "completed"),
+    () => courseList.filter((c) => c.status === "הושלם"),
     [courseList]
   );
   const nextCourse = activeCourses[0];
@@ -252,7 +252,13 @@ const styles = StyleSheet.create({
   headerLogo: { height: 44, width: 160 },
   menuButton: { padding: 8 },
   menuText: { fontSize: 24 },
-  sectionTitle: { fontSize: 18, fontWeight: "800", marginVertical: 8 },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "800",
+    marginVertical: 8,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   heroCard: {
     borderRadius: 18,
     padding: 18,

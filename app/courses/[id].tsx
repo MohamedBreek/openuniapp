@@ -80,12 +80,12 @@ export default function CourseDetail() {
         color: "#C0392B",
       },
     };
-    return map[course.status ?? "enrolled"] ?? map.enrolled;
+    return map[course.status ?? "רשום"] ?? map.enrolled;
   }, [course]);
 
   const progress = useMemo(() => {
     if (!course) return 0;
-    if (course.status === "completed") return 1;
+    if (course.status === "הושלם") return 1;
     if (course.grade) {
       const numeric = Number(course.grade);
       if (!Number.isNaN(numeric)) {
@@ -100,10 +100,10 @@ export default function CourseDetail() {
   const courseDetails = useMemo(() => {
     if (!course) return [];
     return [
-      { label: "Credits", value: String(course.credits) },
-      { label: "Semester", value: course.semester },
-      { label: "Status", value: course.status ?? "Not available" },
-      { label: "Grade", value: course.grade ?? "Pending" },
+      { label: "נ'ז", value: String(course.credits) },
+      { label: "סמסטר", value: course.semester },
+      { label: "סטטוס", value: course.status ?? "לא זמין" },
+      { label: "ציון", value: course.grade ?? "ממתין" },
     ];
   }, [course]);
 
@@ -217,7 +217,7 @@ export default function CourseDetail() {
               />
             </View>
             <Text style={styles.progressHint}>
-              {course.status === "completed"
+              {course.status === "הושלם"
                 ? "הקורס הושלם בהצלחה"
                 : "המשיכו לעמוד במשימות הקרובות להשלמת הקורס"}
             </Text>
@@ -359,6 +359,8 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "800",
     marginBottom: 16,
+    textAlign: "right",
+    writingDirection: "rtl",
   },
   heroMetaRow: {
     flexDirection: "row",
@@ -370,6 +372,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 999,
+    marginRight: "auto",
   },
   statusText: { fontWeight: "700", fontSize: 12 },
   heroStat: {
@@ -409,22 +412,39 @@ const styles = StyleSheet.create({
     color: "rgba(0, 0, 0, 0.75)",
     marginTop: 8,
     fontSize: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
   },
   sectionTitle: {
     fontSize: 16,
     fontWeight: "800",
     marginBottom: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
   },
   metaRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 8,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "rgba(0, 0, 0, 0.08)",
   },
   metaRowLast: { borderBottomWidth: 0 },
-  metaLabel: { fontSize: 14, letterSpacing: 0.3 },
-  metaValue: { fontSize: 16, fontWeight: "600" },
+  metaLabel: {
+    fontSize: 14,
+    letterSpacing: 0.3,
+    textAlign: "right",
+    writingDirection: "rtl",
+    flexShrink: 0,
+  },
+  metaValue: {
+    fontSize: 16,
+    fontWeight: "600",
+    textAlign: "left",
+    writingDirection: "ltr",
+    flexShrink: 0,
+  },
   primaryButton: {
     marginTop: 18,
     borderRadius: 12,
@@ -461,6 +481,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   listBody: { flex: 1 },
-  listTitle: { fontWeight: "700" },
-  listSubtitle: { fontSize: 12, marginTop: 2 },
+  listTitle: { fontWeight: "700", textAlign: "right", writingDirection: "rtl" },
+  listSubtitle: {
+    fontSize: 12,
+    marginTop: 2,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
 });

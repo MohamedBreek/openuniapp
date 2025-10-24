@@ -8,6 +8,7 @@ type HeroBannerProps = {
   description?: string;
   style?: ViewStyle | ViewStyle[];
   children?: React.ReactNode;
+  align?: "left" | "right";
 };
 
 export default function HeroBanner({
@@ -16,6 +17,7 @@ export default function HeroBanner({
   description,
   style,
   children,
+  align = "left",
 }: HeroBannerProps) {
   return (
     <LinearGradient
@@ -24,11 +26,39 @@ export default function HeroBanner({
       end={{ x: 1, y: 1 }}
       style={[styles.banner, style as any]}
     >
-      <View style={styles.content}>
-        <Text style={styles.title}>{title}</Text>
-        {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+      <View
+        style={[
+          styles.content,
+          align === "right" ? styles.alignRight : styles.alignLeft,
+        ]}
+      >
+        <Text
+          style={[
+            styles.title,
+            align === "right" ? styles.textRight : styles.textLeft,
+          ]}
+        >
+          {title}
+        </Text>
+        {subtitle ? (
+          <Text
+            style={[
+              styles.subtitle,
+              align === "right" ? styles.textRight : styles.textLeft,
+            ]}
+          >
+            {subtitle}
+          </Text>
+        ) : null}
         {description ? (
-          <Text style={styles.description}>{description}</Text>
+          <Text
+            style={[
+              styles.description,
+              align === "right" ? styles.textRight : styles.textLeft,
+            ]}
+          >
+            {description}
+          </Text>
         ) : null}
         {children}
       </View>
@@ -47,6 +77,18 @@ const styles = StyleSheet.create({
   },
   content: {
     gap: 8,
+  },
+  alignLeft: { alignItems: "flex-start" },
+  alignRight: { alignItems: "flex-end" },
+  textLeft: {
+    textAlign: "left",
+    writingDirection: "ltr",
+    alignSelf: "flex-start",
+  },
+  textRight: {
+    textAlign: "right",
+    writingDirection: "rtl",
+    alignSelf: "flex-end",
   },
   title: {
     fontSize: 24,

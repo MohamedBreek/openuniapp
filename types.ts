@@ -19,7 +19,7 @@ export type Course = {
   semester: string;
   credits: number;
   grade?: string;
-  status?: "enrolled" | "completed" | "dropped";
+  status?: "רשום" | "הושלם" | "בוטל";
 };
 
 export const MOCK_STUDENT: Student = {
@@ -41,7 +41,7 @@ export const MOCK_COURSES: Course[] = [
     semester: "2025-10",
     credits: 6,
     grade: "90",
-    status: "completed",
+    status: "הושלם",
   },
   {
     id: "c2",
@@ -50,7 +50,7 @@ export const MOCK_COURSES: Course[] = [
     semester: "2025-10",
     credits: 4,
     grade: "85",
-    status: "enrolled",
+    status: "רשום",
   },
   {
     id: "c3",
@@ -58,7 +58,7 @@ export const MOCK_COURSES: Course[] = [
     title: " 1 אלגברה ליניארית",
     semester: "2025-10",
     credits: 7,
-    status: "enrolled",
+    status: "רשום",
   },
   {
     id: "c4",
@@ -66,7 +66,7 @@ export const MOCK_COURSES: Course[] = [
     title: "java מבוא למדעי המחשב",
     semester: "2025-10",
     credits: 6,
-    status: "enrolled",
+    status: "רשום",
   },
   {
     id: "c5",
@@ -74,7 +74,7 @@ export const MOCK_COURSES: Course[] = [
     title: "2 אלגברה ליניארית",
     semester: "2025-10",
     credits: 2,
-    status: "enrolled",
+    status: "רשום",
   },
   {
     id: "c6",
@@ -83,7 +83,7 @@ export const MOCK_COURSES: Course[] = [
     semester: "2025-10",
     credits: 2,
     grade: "88",
-    status: "completed",
+    status: "הושלם",
   },
   {
     id: "c7",
@@ -92,7 +92,7 @@ export const MOCK_COURSES: Course[] = [
     semester: "2025-10",
     credits: 2,
     grade: "88",
-    status: "completed",
+    status: "הושלם",
   },
   {
     id: "c8",
@@ -101,6 +101,6 @@ export const MOCK_COURSES: Course[] = [
     semester: "2025-10",
     credits: 2,
     grade: "88",
-    status: "completed",
+    status: "הושלם",
   },
 ];

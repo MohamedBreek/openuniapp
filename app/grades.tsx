@@ -73,7 +73,13 @@ export default function GradesScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16 },
-  title: { fontSize: 20, fontWeight: "800", marginBottom: 12 },
+  title: {
+    fontSize: 20,
+    fontWeight: "800",
+    marginBottom: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   cardInner: {
     flexDirection: "row",
     alignItems: "center",
@@ -92,8 +98,19 @@ const styles = StyleSheet.create({
   cardLeft: { flex: 1 },
   cardRight: { width: 64, alignItems: "center" },
   code: { fontWeight: "800", color: "#222" },
-  titleSmall: { color: "#444", marginTop: 6 },
-  semester: { color: "#000000ff", marginTop: 6, fontSize: 12 },
+  titleSmall: {
+    color: "#444",
+    marginTop: 6,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  semester: {
+    color: "#000000ff",
+    marginTop: 6,
+    fontSize: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   gradeBadge: {
     width: 52,
     height: 52,

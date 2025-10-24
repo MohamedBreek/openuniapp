@@ -4,6 +4,7 @@ import Card from "@/components/ui/card";
 import HeroBanner from "@/components/ui/hero-banner";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
+import { Stack } from "expo-router";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -281,190 +282,204 @@ export default function SystemScreen() {
   };
 
   return (
-    <ParallaxScrollView>
-      <ThemedView style={styles.container} useGradient>
-        <HeroBanner
-          title="מערכת השיעורים"
-          subtitle="היום שלך מרוכז במקום אחד"
-          description="עקבו אחר מפגשי הלימוד, המשימות והאירועים החשובים של השבוע."
-        >
-          {nextSlot ? (
-            <View style={styles.heroMetaRow}>
-              <View style={styles.heroMetaBadge}>
-                <IconSymbol name="calendar" size={16} color="#fff" />
-                <Text style={styles.heroMetaText}>
-                  השיעור הבא · {nextSlot.time}
-                </Text>
-              </View>
-              <Text style={styles.heroMetaCourse}>{nextSlot.course}</Text>
-            </View>
-          ) : null}
-        </HeroBanner>
-
-        <Card>
-          <View style={styles.calendarHeader}>
-            <Pressable
-              style={styles.calendarNavButton}
-              onPress={() => handleMonthShift("prev")}
-              accessibilityRole="button"
-              accessibilityLabel="חודש קודם"
-            >
-              <IconSymbol
-                name="chevron.right"
-                size={16}
-                color={Colors.light.tint}
-              />
-            </Pressable>
-            <Text style={styles.calendarMonthLabel}>{monthLabel}</Text>
-            <Pressable
-              style={styles.calendarNavButton}
-              onPress={() => handleMonthShift("next")}
-              accessibilityRole="button"
-              accessibilityLabel="חודש הבא"
-            >
-              <IconSymbol
-                name="chevron.left"
-                size={16}
-                color={Colors.light.tint}
-              />
-            </Pressable>
-          </View>
-
-          <View style={styles.calendarWeekDaysRow}>
-            {weekDayLabels.map((label) => (
-              <Text key={label} style={styles.calendarWeekDayText}>
-                {label}
-              </Text>
-            ))}
-          </View>
-
-          {calendarWeeks.map((week, index) => (
-            <View key={`week-${index}`} style={styles.calendarWeekRow}>
-              {week.map((cell) => {
-                if (!cell.label || !cell.dateKey) {
-                  return (
-                    <View
-                      key={cell.key}
-                      style={styles.calendarDayPlaceholder}
-                    />
-                  );
-                }
-                return (
-                  <Pressable
-                    key={cell.key}
-                    style={[
-                      styles.calendarDay,
-                      cell.isSelected && styles.calendarDaySelected,
-                    ]}
-                    onPress={() => setSelectedDateKey(cell.dateKey!)}
-                    accessibilityRole="button"
-                    accessibilityLabel={`יום ${cell.label}`}
-                  >
-                    <Text
-                      style={[
-                        styles.calendarDayText,
-                        cell.isToday && styles.calendarDayTodayText,
-                        cell.isSelected && styles.calendarDaySelectedText,
-                      ]}
-                    >
-                      {cell.label}
-                    </Text>
-                    {cell.hasEvents ? (
-                      <View style={styles.calendarDayDot} />
-                    ) : null}
-                  </Pressable>
-                );
-              })}
-            </View>
-          ))}
-        </Card>
-
-        <Card>
-          <Text style={styles.sectionTitle}>אירועים ביום הנבחר</Text>
-          <Text style={styles.selectedDateLabel}>
-            {formatDateLabel(selectedDateKey)}
-          </Text>
-          {selectedEvents.length > 0 ? (
-            selectedEvents.map((event) => (
-              <View key={event.id} style={styles.eventRow}>
-                <View style={styles.eventMeta}>
-                  <Text style={styles.eventTitle}>{event.title}</Text>
-                  {event.meta ? (
-                    <Text style={styles.eventInfo}>{event.meta}</Text>
-                  ) : null}
+    <>
+      <Stack.Screen
+        options={{
+          title: "לוח שנה",
+        }}
+      />
+      <ParallaxScrollView>
+        <ThemedView style={styles.container} useGradient>
+          <HeroBanner
+            title="מערכת השיעורים"
+            subtitle="היום שלך מרוכז במקום אחד"
+            description="עקבו אחר מפגשי הלימוד, המשימות והאירועים החשובים של השבוע."
+            align="right"
+          >
+            {nextSlot ? (
+              <View style={styles.heroMetaRow}>
+                <View style={styles.heroMetaBadge}>
+                  <IconSymbol name="calendar" size={16} color="#fff" />
+                  <Text style={styles.heroMetaText}>
+                    השיעור הבא · {nextSlot.time}
+                  </Text>
                 </View>
-                <View style={styles.eventPill}>
-                  <Text style={styles.eventPillText}>{event.time}</Text>
-                </View>
+                <Text style={styles.heroMetaCourse}>{nextSlot.course}</Text>
               </View>
-            ))
-          ) : (
-            <Text style={styles.emptyStateText}>
-              אין משימות או מפגשים ביום זה.
-            </Text>
-          )}
-        </Card>
+            ) : null}
+          </HeroBanner>
 
-        <Card>
-          <Text style={styles.sectionTitle}>מערכת להיום</Text>
-          {schedule.map((slot) => (
-            <View key={slot.id} style={styles.slotRow}>
-              <View style={styles.slotTimeColumn}>
-                <Text style={styles.slotTime}>{slot.time}</Text>
-                <Text style={styles.slotDuration}>{slot.duration}</Text>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.slotCourse}>{slot.course}</Text>
-                <Text style={styles.slotMeta}>{slot.lecturer}</Text>
-                <Text style={styles.slotMeta}>{slot.location}</Text>
-              </View>
-              <View style={styles.slotTypePill}>
-                <Text style={styles.slotTypeText}>{slot.type}</Text>
-              </View>
-            </View>
-          ))}
-        </Card>
-
-        <Card>
-          <Text style={styles.sectionTitle}>משימות קרובות</Text>
-          {tasks.map((task) => (
-            <View key={task.id} style={styles.taskRow}>
-              <View style={styles.taskBullet}>
+          <Card>
+            <View style={styles.calendarHeader}>
+              <Pressable
+                style={styles.calendarNavButton}
+                onPress={() => handleMonthShift("prev")}
+                accessibilityRole="button"
+                accessibilityLabel="חודש קודם"
+              >
                 <IconSymbol
-                  name="checkmark.seal"
+                  name="chevron.right"
                   size={16}
                   color={Colors.light.tint}
                 />
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.taskTitle}>{task.title}</Text>
-                <Text style={styles.taskDetail}>{task.detail}</Text>
-              </View>
-              <Text style={styles.taskDue}>{task.due}</Text>
+              </Pressable>
+              <Text style={styles.calendarMonthLabel}>{monthLabel}</Text>
+              <Pressable
+                style={styles.calendarNavButton}
+                onPress={() => handleMonthShift("next")}
+                accessibilityRole="button"
+                accessibilityLabel="חודש הבא"
+              >
+                <IconSymbol
+                  name="chevron.left"
+                  size={16}
+                  color={Colors.light.tint}
+                />
+              </Pressable>
             </View>
-          ))}
-        </Card>
 
-        <Card>
-          <Text style={styles.sectionTitle}>תזכורות</Text>
-          {reminders.map((item) => (
-            <View key={item.id} style={styles.reminderRow}>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.reminderLabel}>{item.label}</Text>
-                <Text style={styles.reminderNote}>{item.note}</Text>
-              </View>
-              <Text style={styles.reminderValue}>{item.value}</Text>
+            <View style={styles.calendarWeekDaysRow}>
+              {weekDayLabels.map((label) => (
+                <Text key={label} style={styles.calendarWeekDayText}>
+                  {label}
+                </Text>
+              ))}
             </View>
-          ))}
-        </Card>
-      </ThemedView>
-    </ParallaxScrollView>
+
+            {calendarWeeks.map((week, index) => (
+              <View key={`week-${index}`} style={styles.calendarWeekRow}>
+                {week.map((cell) => {
+                  if (!cell.label || !cell.dateKey) {
+                    return (
+                      <View
+                        key={cell.key}
+                        style={styles.calendarDayPlaceholder}
+                      />
+                    );
+                  }
+                  return (
+                    <Pressable
+                      key={cell.key}
+                      style={[
+                        styles.calendarDay,
+                        cell.isSelected && styles.calendarDaySelected,
+                      ]}
+                      onPress={() => setSelectedDateKey(cell.dateKey!)}
+                      accessibilityRole="button"
+                      accessibilityLabel={`יום ${cell.label}`}
+                    >
+                      <Text
+                        style={[
+                          styles.calendarDayText,
+                          cell.isToday && styles.calendarDayTodayText,
+                          cell.isSelected && styles.calendarDaySelectedText,
+                        ]}
+                      >
+                        {cell.label}
+                      </Text>
+                      {cell.hasEvents ? (
+                        <View style={styles.calendarDayDot} />
+                      ) : null}
+                    </Pressable>
+                  );
+                })}
+              </View>
+            ))}
+          </Card>
+
+          <Card>
+            <Text style={styles.sectionTitle}>אירועים ביום הנבחר</Text>
+            <Text style={styles.selectedDateLabel}>
+              {formatDateLabel(selectedDateKey)}
+            </Text>
+            {selectedEvents.length > 0 ? (
+              selectedEvents.map((event) => (
+                <View key={event.id} style={styles.eventRow}>
+                  <View style={styles.eventMeta}>
+                    <Text style={styles.eventTitle}>{event.title}</Text>
+                    {event.meta ? (
+                      <Text style={styles.eventInfo}>{event.meta}</Text>
+                    ) : null}
+                  </View>
+                  <View style={styles.eventPill}>
+                    <Text style={styles.eventPillText}>{event.time}</Text>
+                  </View>
+                </View>
+              ))
+            ) : (
+              <Text style={styles.emptyStateText}>
+                אין משימות או מפגשים ביום זה.
+              </Text>
+            )}
+          </Card>
+
+          <Card>
+            <Text style={styles.sectionTitle}>מערכת להיום</Text>
+            {schedule.map((slot) => (
+              <View key={slot.id} style={styles.slotRow}>
+                <View style={styles.slotTimeColumn}>
+                  <Text style={styles.slotTime}>{slot.time}</Text>
+                  <Text style={styles.slotDuration}>{slot.duration}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.slotCourse}>{slot.course}</Text>
+                  <Text style={styles.slotMeta}>{slot.lecturer}</Text>
+                  <Text style={styles.slotMeta}>{slot.location}</Text>
+                </View>
+                <View style={styles.slotTypePill}>
+                  <Text style={styles.slotTypeText}>{slot.type}</Text>
+                </View>
+              </View>
+            ))}
+          </Card>
+
+          <Card>
+            <Text style={styles.sectionTitle}>משימות קרובות</Text>
+            {tasks.map((task) => (
+              <View key={task.id} style={styles.taskRow}>
+                <View style={styles.taskBullet}>
+                  <IconSymbol
+                    name="checkmark.seal"
+                    size={16}
+                    color={Colors.light.tint}
+                  />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.taskTitle}>{task.title}</Text>
+                  <Text style={styles.taskDetail}>{task.detail}</Text>
+                </View>
+                <Text style={styles.taskDue}>{task.due}</Text>
+              </View>
+            ))}
+          </Card>
+
+          <Card>
+            <Text style={styles.sectionTitle}>תזכורות</Text>
+            {reminders.map((item) => (
+              <View key={item.id} style={styles.reminderRow}>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.reminderLabel}>{item.label}</Text>
+                  <Text style={styles.reminderNote}>{item.note}</Text>
+                </View>
+                <Text style={styles.reminderValue}>{item.value}</Text>
+              </View>
+            ))}
+          </Card>
+        </ThemedView>
+      </ParallaxScrollView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: { padding: 20, gap: 18 },
-  sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 12 },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   heroMetaRow: { marginTop: 14, gap: 8 },
   heroMetaBadge: {
     flexDirection: "row",
@@ -476,7 +491,12 @@ const styles = StyleSheet.create({
     borderRadius: 999,
   },
   heroMetaText: { color: "#fff", fontWeight: "600" },
-  heroMetaCourse: { color: "rgba(255,255,255,0.85)", fontWeight: "700" },
+  heroMetaCourse: {
+    color: "rgba(255,255,255,0.85)",
+    fontWeight: "700",
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   calendarHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -515,14 +535,14 @@ const styles = StyleSheet.create({
   calendarDayPlaceholder: { flex: 1, padding: 6 },
   calendarDay: {
     flex: 1,
-    paddingVertical: 12,
-    borderRadius: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(255,255,255,0.6)",
     borderWidth: 1,
     borderColor: "rgba(21,101,216,0.08)",
-    marginHorizontal: 4,
+    marginHorizontal: 0,
   },
   calendarDaySelected: {
     backgroundColor: Colors.light.tint,
@@ -603,7 +623,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(21,101,216,0.12)",
   },
-  taskTitle: { fontWeight: "700", color: Colors.light.text },
+  taskTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   taskDetail: { color: "#4B5563", marginTop: 4, fontSize: 12 },
   taskDue: { color: Colors.light.tint, fontWeight: "700", fontSize: 12 },
   reminderRow: {
@@ -614,7 +639,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "rgba(21,101,216,0.08)",
   },
-  reminderLabel: { fontWeight: "700", color: Colors.light.text },
+  reminderLabel: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   reminderNote: { color: "#4B5563", marginTop: 4 },
   reminderValue: { color: Colors.light.tint, fontWeight: "700" },
 });

@@ -69,6 +69,7 @@ export default function DiscountScreen() {
           title="הטבות והנחות"
           subtitle="כי לימודים מגיעים עם יתרונות"
           description="גלו את כל ההטבות לסטודנטים בתחבורה, תרבות, טכנולוגיה ועוד."
+          align="right"
         >
           <View style={styles.heroRow}>
             <View style={styles.heroPill}>
@@ -135,7 +136,13 @@ export default function DiscountScreen() {
 
 const styles = StyleSheet.create({
   container: { padding: 20, gap: 18 },
-  sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 12 },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   heroRow: {
     marginTop: 16,
     flexDirection: "row",
@@ -151,7 +158,12 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     backgroundColor: "rgba(255,255,255,0.18)",
   },
-  heroText: { color: "#fff", fontWeight: "600" },
+  heroText: {
+    color: "#fff",
+    fontWeight: "600",
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   benefitRow: {
     flexDirection: "row",
     gap: 12,
@@ -166,8 +178,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(21,101,216,0.12)",
   },
-  benefitTitle: { fontWeight: "700", color: Colors.light.text },
-  benefitDetail: { color: "#4B5563", marginTop: 4, lineHeight: 18 },
+  benefitTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  benefitDetail: {
+    color: "#4B5563",
+    marginTop: 4,
+    lineHeight: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   partnerRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -176,8 +199,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "rgba(21,101,216,0.08)",
   },
-  partnerName: { fontWeight: "700", color: Colors.light.text },
-  partnerPerk: { color: "#4B5563", marginTop: 4, fontSize: 12 },
+  partnerName: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  partnerPerk: {
+    color: "#4B5563",
+    marginTop: 4,
+    fontSize: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   stepRow: {
     flexDirection: "row",
     gap: 12,
@@ -192,7 +226,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(21,101,216,0.12)",
   },
-  stepBadgeText: { color: Colors.light.tint, fontWeight: "700" },
-  stepTitle: { fontWeight: "700", color: Colors.light.text },
-  stepDescription: { color: "#4B5563", marginTop: 4, lineHeight: 18 },
+  stepBadgeText: {
+    color: Colors.light.tint,
+    fontWeight: "700",
+    textAlign: "center",
+  },
+  stepTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  stepDescription: {
+    color: "#4B5563",
+    marginTop: 4,
+    lineHeight: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
 });

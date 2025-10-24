@@ -128,6 +128,7 @@ export default function ExamsScreen() {
           title="מבחנים"
           subtitle="תכנון חכם מוביל להצלחה"
           description="עקבו אחר המועדים, ההרשמות והכלים שיעזרו לכם להגיע מוכנים לכל בחינה."
+          align="right"
         >
           {nextExam ? (
             <View style={styles.heroBadgeRow}>
@@ -254,8 +255,19 @@ export default function ExamsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, gap: 18 },
-  sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 12 },
+  container: {
+    padding: 20,
+    gap: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   heroBadgeRow: { marginTop: 16, gap: 10 },
   heroBadge: {
     flexDirection: "row",
@@ -266,8 +278,18 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 999,
   },
-  heroBadgeText: { color: "#fff", fontWeight: "600" },
-  heroExamCourse: { color: "rgba(255,255,255,0.85)", fontWeight: "700" },
+  heroBadgeText: {
+    color: "#fff",
+    fontWeight: "600",
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  heroExamCourse: {
+    color: "rgba(255,255,255,0.85)",
+    fontWeight: "700",
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   examRow: {
     flexDirection: "row",
     alignItems: "flex-start",
@@ -402,6 +424,16 @@ const styles = StyleSheet.create({
     borderColor: "rgba(21,101,216,0.08)",
     gap: 6,
   },
-  policyTitle: { fontWeight: "700", color: Colors.light.text },
-  policyDetail: { color: "#4B5563", lineHeight: 18, textAlign: "right" },
+  policyTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  policyDetail: {
+    color: "#4B5563",
+    lineHeight: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
 });

@@ -141,6 +141,7 @@ export default function StudentCardScreen() {
           title="כרטיס סטודנט דיגיטלי"
           subtitle="תמיד בהישג יד"
           description="הצג את הכרטיס כדי להיכנס לקמפוס, ליהנות מהטבות ולהזדהות מול שירותי האוניברסיטה."
+          align="right"
         >
           <View style={styles.heroRow}>
             <View style={styles.heroPill}>
@@ -264,7 +265,12 @@ export default function StudentCardScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, gap: 18 },
+  container: {
+    padding: 20,
+    gap: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   heroRow: {
     marginTop: 12,
     flexDirection: "row",
@@ -280,14 +286,25 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     backgroundColor: "rgba(255,255,255,0.18)",
   },
-  heroPillText: { color: "#fff", fontWeight: "600" },
+  heroPillText: {
+    color: "#fff",
+    fontWeight: "600",
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   cardWrap: { gap: 16 },
   cardHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
-  cardTitle: { fontSize: 18, fontWeight: "700", color: Colors.light.text },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   cardSubtitle: { color: "#4B5563", marginTop: 4 },
   cardAction: {
     flexDirection: "row",
@@ -305,7 +322,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 6,
   },
-  cardActionText: { color: Colors.light.tint, fontWeight: "700" },
+  cardActionText: {
+    color: Colors.light.tint,
+    fontWeight: "700",
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   image: {
     width: "100%",
     aspectRatio: 1.6,
@@ -327,8 +349,19 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 999,
   },
-  statusText: { color: Colors.light.tint, fontWeight: "700" },
-  sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 12 },
+  statusText: {
+    color: Colors.light.tint,
+    fontWeight: "700",
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   stepsList: { gap: 14 },
   stepItem: { flexDirection: "row", gap: 12 },
   stepNumber: {
@@ -341,8 +374,19 @@ const styles = StyleSheet.create({
   },
   stepNumberText: { color: Colors.light.tint, fontWeight: "700" },
   stepContent: { flex: 1 },
-  stepTitle: { fontWeight: "700", color: Colors.light.text },
-  stepDescription: { color: "#4B5563", marginTop: 4, lineHeight: 18 },
+  stepTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  stepDescription: {
+    color: "#4B5563",
+    marginTop: 4,
+    lineHeight: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   featureRow: {
     flexDirection: "row",
     gap: 12,
@@ -357,6 +401,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(21,101,216,0.12)",
   },
-  featureTitle: { fontWeight: "700", color: Colors.light.text },
-  featureDetail: { color: "#4B5563", marginTop: 4, lineHeight: 18 },
+  featureTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  featureDetail: {
+    color: "#4B5563",
+    marginTop: 4,
+    lineHeight: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
 });
