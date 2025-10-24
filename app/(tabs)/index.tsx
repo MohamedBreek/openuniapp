@@ -11,7 +11,6 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
 } from "react-native";
 
 import HeaderMenu from "@/components/HeaderMenu";
@@ -53,6 +52,13 @@ export default function HomeScreen() {
   }, [refreshCourses]);
 
   const tiles = React.useMemo(() => TILE_DATA, []);
+  const tileRows = React.useMemo(() => {
+    const rows: Tile[][] = [];
+    for (let i = 0; i < tiles.length; i += 3) {
+      rows.push(tiles.slice(i, i + 3));
+    }
+    return rows;
+  }, [tiles]);
   const courseList = React.useMemo(
     () => (Array.isArray(courses) ? courses : []),
     [courses]
@@ -105,27 +111,6 @@ export default function HomeScreen() {
       }
     },
     [router]
-  );
-
-  const renderTile = React.useCallback(
-    ({ item }: { item: Tile }) => (
-      <Pressable
-        style={styles.tile}
-        android_ripple={{ color: "rgba(0,0,0,0.06)" }}
-        accessibilityRole="button"
-        onPress={() => handleTilePress(item.href)}
-      >
-        <View
-          style={[styles.tileIconWrap, { backgroundColor: Colors.light.tint }]}
-        >
-          <IconSymbol name={item.icon} size={20} color="#fff" />
-        </View>
-        <Text style={[styles.tileText, { color: Colors.light.text }]}>
-          {item.title}
-        </Text>
-      </Pressable>
-    ),
-    [handleTilePress]
   );
 
   return (
@@ -199,17 +184,36 @@ export default function HomeScreen() {
           יישומים חשובים
         </Text>
 
-        <FlatList<Tile>
-          data={tiles}
-          keyExtractor={(item) => item.id}
-          numColumns={3}
-          contentContainerStyle={styles.tileListContent}
-          columnWrapperStyle={[
-            styles.tileRow,
-            I18nManager.isRTL && styles.tileRowRtl,
-          ]}
-          renderItem={renderTile}
-        />
+        <View style={styles.tileListContent}>
+          {tileRows.map((row, rowIndex) => (
+            <View
+              key={`tile-row-${rowIndex}`}
+              style={[styles.tileRow, I18nManager.isRTL && styles.tileRowRtl]}
+            >
+              {row.map((item) => (
+                <Pressable
+                  key={item.id}
+                  style={styles.tile}
+                  android_ripple={{ color: "rgba(0,0,0,0.06)" }}
+                  accessibilityRole="button"
+                  onPress={() => handleTilePress(item.href)}
+                >
+                  <View
+                    style={[
+                      styles.tileIconWrap,
+                      { backgroundColor: Colors.light.tint },
+                    ]}
+                  >
+                    <IconSymbol name={item.icon} size={20} color="#fff" />
+                  </View>
+                  <Text style={[styles.tileText, { color: Colors.light.text }]}>
+                    {item.title}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          ))}
+        </View>
 
         <View style={styles.newsCard}>
           <View style={styles.newsHeader}>
@@ -310,7 +314,11 @@ const styles = StyleSheet.create({
   statLabel: { marginTop: 6, fontWeight: "700", color: "#1F2937" },
   statHint: { marginTop: 2, color: "#6B7280", fontSize: 12 },
   tileListContent: { paddingBottom: 4 },
-  tileRow: { justifyContent: "space-between", marginBottom: 12 },
+  tileRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
   tileRowRtl: { flexDirection: "row-reverse" },
   tile: {
     flex: 1,

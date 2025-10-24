@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 6,
   },
-  logo: { width: 160, height: 64, alignSelf: "center", marginBottom: 12 },
+  logo: { width: 300, height: 130, alignSelf: "center", marginBottom: 1 },
   title: { fontSize: 20, fontWeight: "700", textAlign: "center" },
   subtitle: { textAlign: "center", color: "#666", marginBottom: 12 },
   input: {

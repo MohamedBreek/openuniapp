@@ -156,21 +156,25 @@ export default function ExamsScreen() {
                   <Text style={styles.examDate}>{exam.date}</Text>
                   <Text style={styles.examHour}>{exam.time}</Text>
                 </View>
-                <View style={styles.examDetails}>
-                  <Text style={styles.examCourse}>{exam.course}</Text>
-                  <Text style={styles.examLocation}>{exam.location}</Text>
-                </View>
-                <View
-                  style={[
-                    styles.examStatusPill,
-                    { backgroundColor: palette.background },
-                  ]}
-                >
-                  <Text
-                    style={[styles.examStatusText, { color: palette.text }]}
-                  >
-                    {exam.status}
-                  </Text>
+                <View style={styles.examDetailsWrapper}>
+                  <View style={styles.examStatusPillWrap}>
+                    <View
+                      style={[
+                        styles.examStatusPill,
+                        { backgroundColor: palette.background },
+                      ]}
+                    >
+                      <Text
+                        style={[styles.examStatusText, { color: palette.text }]}
+                      >
+                        {exam.status}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.examDetails}>
+                    <Text style={styles.examCourse}>{exam.course}</Text>
+                    <Text style={styles.examLocation}>{exam.location}</Text>
+                  </View>
                 </View>
               </View>
             );
@@ -266,7 +270,7 @@ const styles = StyleSheet.create({
   heroExamCourse: { color: "rgba(255,255,255,0.85)", fontWeight: "700" },
   examRow: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     gap: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
@@ -282,17 +286,40 @@ const styles = StyleSheet.create({
   },
   examDate: { fontWeight: "800", color: Colors.light.tint },
   examHour: { color: "#1F2937", marginTop: 4, fontSize: 12 },
-  examDetails: { flex: 1, alignItems: "flex-end" },
+  examDetailsWrapper: {
+    flex: 1,
+    alignItems: "flex-end",
+    gap: 8,
+  },
+  examStatusPillWrap: { alignItems: "flex-end", width: "100%" },
+  examDetails: {
+    flex: 1,
+    alignItems: "flex-end",
+    gap: 6,
+    minWidth: 0,
+    width: "100%",
+  },
   examCourse: {
     fontWeight: "700",
     color: Colors.light.text,
     textAlign: "right",
+    writingDirection: "rtl",
+    flexShrink: 1,
+    alignSelf: "stretch",
   },
-  examLocation: { color: "#4B5563", marginTop: 4, textAlign: "right" },
+  examLocation: {
+    color: "#4B5563",
+    marginTop: 4,
+    textAlign: "right",
+    writingDirection: "rtl",
+    flexShrink: 1,
+    alignSelf: "stretch",
+  },
   examStatusPill: {
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 999,
+    alignSelf: "flex-end",
   },
   examStatusText: { fontWeight: "700", fontSize: 12 },
   tipRow: {
