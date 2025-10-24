@@ -55,7 +55,7 @@ export const MOCK_COURSES: Course[] = [
   {
     id: "c3",
     code: "20109",
-    title: "1 אלגברה ליניארית",
+    title: " 1 אלגברה ליניארית",
     semester: "2025-10",
     credits: 7,
     status: "enrolled",

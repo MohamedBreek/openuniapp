@@ -6,8 +6,8 @@ import { useAuth } from "@/context/auth";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useRoute } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useLocalSearchParams } from "expo-router";
-import React, { useCallback, useMemo } from "react";
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import React, { useCallback, useLayoutEffect, useMemo } from "react";
 import {
   Alert,
   Pressable,
@@ -21,6 +21,7 @@ export default function CourseDetail() {
   const { courses } = useAuth();
   const { id: queryParam } = useLocalSearchParams<{ id?: string }>();
   const route: any = useRoute();
+  const navigation = useNavigation();
 
   const courseId = useMemo(() => {
     if (Array.isArray(queryParam)) return queryParam[0];
@@ -41,6 +42,12 @@ export default function CourseDetail() {
     () => courses.find((c) => c.id === courseId),
     [courses, courseId]
   );
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: course?.title ?? "Course",
+    });
+  }, [navigation, course?.title]);
 
   const tintColor = useThemeColor({}, "tint");
   const textColor = useThemeColor(
