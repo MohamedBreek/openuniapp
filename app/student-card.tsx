@@ -276,9 +276,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 10,
+    justifyContent: "flex-end",
   },
   heroPill: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 6,
     paddingHorizontal: 14,
@@ -318,7 +319,7 @@ const styles = StyleSheet.create({
   cardActionPressed: { opacity: 0.85 },
   cardActionDisabled: { opacity: 0.6 },
   cardActionContent: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 6,
   },
@@ -363,7 +364,7 @@ const styles = StyleSheet.create({
     writingDirection: "rtl",
   },
   stepsList: { gap: 14 },
-  stepItem: { flexDirection: "row", gap: 12 },
+  stepItem: { flexDirection: "row-reverse", gap: 12 },
   stepNumber: {
     width: 32,
     height: 32,
@@ -388,7 +389,7 @@ const styles = StyleSheet.create({
     writingDirection: "rtl",
   },
   featureRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     gap: 12,
     alignItems: "flex-start",
     marginBottom: 12,

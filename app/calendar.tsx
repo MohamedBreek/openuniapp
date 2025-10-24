@@ -124,7 +124,7 @@ export default function SystemScreen() {
     {
       id: "r2",
       label: "מסגרת לימודים",
-      value: "3 מפגשים שנותרו השבוע",
+      value: "3 מפגשים\n שנותרו\n השבוע",
       note: "זכרו לעדכן דיווחי נוכחות",
     },
   ];
@@ -318,7 +318,7 @@ export default function SystemScreen() {
                 accessibilityLabel="חודש קודם"
               >
                 <IconSymbol
-                  name="chevron.right"
+                  name="chevron.left"
                   size={16}
                   color={Colors.light.tint}
                 />
@@ -331,7 +331,7 @@ export default function SystemScreen() {
                 accessibilityLabel="חודש הבא"
               >
                 <IconSymbol
-                  name="chevron.left"
+                  name="chevron.right"
                   size={16}
                   color={Colors.light.tint}
                 />
@@ -415,22 +415,26 @@ export default function SystemScreen() {
 
           <Card>
             <Text style={styles.sectionTitle}>מערכת להיום</Text>
-            {schedule.map((slot) => (
-              <View key={slot.id} style={styles.slotRow}>
-                <View style={styles.slotTimeColumn}>
-                  <Text style={styles.slotTime}>{slot.time}</Text>
-                  <Text style={styles.slotDuration}>{slot.duration}</Text>
+            <View style={styles.slotList}>
+              {schedule.map((slot) => (
+                <View key={slot.id} style={styles.slotRow}>
+                  <View style={styles.slotInfo}>
+                    <View style={styles.slotInfoHeader}>
+                      <Text style={styles.slotCourse}>{slot.course}</Text>
+                      <View style={styles.slotTypePill}>
+                        <Text style={styles.slotTypeText}>{slot.type}</Text>
+                      </View>
+                    </View>
+                    <Text style={styles.slotMeta}>{slot.lecturer}</Text>
+                    <Text style={styles.slotMeta}>{slot.location}</Text>
+                  </View>
+                  <View style={styles.slotTimeColumn}>
+                    <Text style={styles.slotTime}>{slot.time}</Text>
+                    <Text style={styles.slotDuration}>{slot.duration}</Text>
+                  </View>
                 </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.slotCourse}>{slot.course}</Text>
-                  <Text style={styles.slotMeta}>{slot.lecturer}</Text>
-                  <Text style={styles.slotMeta}>{slot.location}</Text>
-                </View>
-                <View style={styles.slotTypePill}>
-                  <Text style={styles.slotTypeText}>{slot.type}</Text>
-                </View>
-              </View>
-            ))}
+              ))}
+            </View>
           </Card>
 
           <Card>
@@ -455,15 +459,19 @@ export default function SystemScreen() {
 
           <Card>
             <Text style={styles.sectionTitle}>תזכורות</Text>
-            {reminders.map((item) => (
-              <View key={item.id} style={styles.reminderRow}>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.reminderLabel}>{item.label}</Text>
+            <View style={styles.reminderList}>
+              {reminders.map((item) => (
+                <View key={item.id} style={styles.reminderItem}>
+                  <View style={styles.reminderHeader}>
+                    <Text style={styles.reminderLabel}>{item.label}</Text>
+                    <View style={styles.reminderValuePill}>
+                      <Text style={styles.reminderValue}>{item.value}</Text>
+                    </View>
+                  </View>
                   <Text style={styles.reminderNote}>{item.note}</Text>
                 </View>
-                <Text style={styles.reminderValue}>{item.value}</Text>
-              </View>
-            ))}
+              ))}
+            </View>
           </Card>
         </ThemedView>
       </ParallaxScrollView>
@@ -517,7 +525,7 @@ const styles = StyleSheet.create({
     color: Colors.light.text,
   },
   calendarWeekDaysRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     justifyContent: "space-between",
     marginBottom: 6,
   },
@@ -528,9 +536,9 @@ const styles = StyleSheet.create({
     color: "#4B5563",
   },
   calendarWeekRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     justifyContent: "space-between",
-    marginBottom: 6,
+    marginBottom: 5,
   },
   calendarDayPlaceholder: { flex: 1, padding: 6 },
   calendarDay: {
@@ -565,7 +573,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   eventRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 10,
@@ -587,28 +595,67 @@ const styles = StyleSheet.create({
   },
   eventPillText: { color: Colors.light.tint, fontWeight: "700" },
   emptyStateText: { color: "#4B5563", textAlign: "center", marginTop: 8 },
+  slotList: { gap: 12 },
   slotRow: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: "row-reverse",
+    alignItems: "stretch",
     gap: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderColor: "rgba(21,101,216,0.08)",
+    padding: 16,
+    borderRadius: 16,
+    backgroundColor: "rgba(21,101,216,0.06)",
+    borderWidth: 1,
+    borderColor: "rgba(21,101,216,0.12)",
   },
-  slotTimeColumn: { width: 68 },
-  slotTime: { fontWeight: "800", color: Colors.light.tint },
-  slotDuration: { color: "#6B7280", fontSize: 12, marginTop: 4 },
-  slotCourse: { fontWeight: "700", color: Colors.light.text },
-  slotMeta: { color: "#6B7280", marginTop: 4 },
+  slotInfo: { flex: 1, gap: 6 },
+  slotInfoHeader: {
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 2,
+    gap: 12,
+    flexWrap: "wrap",
+  },
+  slotTimeColumn: {
+    width: 72,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+  },
+  slotTime: {
+    fontWeight: "800",
+    color: Colors.light.tint,
+    fontSize: 18,
+    textAlign: "center",
+  },
+  slotDuration: {
+    color: "#6B7280",
+    fontSize: 12,
+    textAlign: "center",
+    writingDirection: "rtl",
+  },
+  slotCourse: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+    flexShrink: 1,
+  },
+  slotMeta: {
+    color: "#6B7280",
+    marginTop: 2,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   slotTypePill: {
     backgroundColor: "rgba(21,101,216,0.12)",
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 999,
+    alignSelf: "flex-start",
   },
   slotTypeText: { color: Colors.light.tint, fontWeight: "700", fontSize: 12 },
   taskRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 12,
     paddingVertical: 12,
@@ -631,13 +678,20 @@ const styles = StyleSheet.create({
   },
   taskDetail: { color: "#4B5563", marginTop: 4, fontSize: 12 },
   taskDue: { color: Colors.light.tint, fontWeight: "700", fontSize: 12 },
-  reminderRow: {
-    flexDirection: "row",
+  reminderList: { gap: 12 },
+  reminderItem: {
+    padding: 16,
+    borderRadius: 16,
+    backgroundColor: "rgba(21,101,216,0.06)",
+    borderWidth: 1,
+    borderColor: "rgba(21,101,216,0.12)",
+    gap: 10,
+  },
+  reminderHeader: {
+    flexDirection: "row-reverse",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderColor: "rgba(21,101,216,0.08)",
+    gap: 12,
   },
   reminderLabel: {
     fontWeight: "700",
@@ -645,6 +699,23 @@ const styles = StyleSheet.create({
     textAlign: "right",
     writingDirection: "rtl",
   },
-  reminderNote: { color: "#4B5563", marginTop: 4 },
-  reminderValue: { color: Colors.light.tint, fontWeight: "700" },
+  reminderNote: {
+    color: "#4B5563",
+    marginTop: 2,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  reminderValuePill: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 999,
+    backgroundColor: "rgba(21,101,216,0.12)",
+    alignSelf: "flex-start",
+    marginLeft: 12,
+  },
+  reminderValue: {
+    color: Colors.light.tint,
+    fontWeight: "700",
+    textAlign: "center",
+  },
 });

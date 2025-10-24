@@ -390,17 +390,19 @@ const styles = StyleSheet.create({
   menuTitle: {
     fontSize: 16,
     fontWeight: "700",
+    textAlign: "right",
   },
   menuSubtitle: {
     fontSize: 13,
     fontWeight: "500",
+    textAlign: "right",
   },
   item: {
     paddingHorizontal: 18,
     paddingVertical: 14,
   },
   itemContent: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 12,
   },
@@ -414,6 +416,7 @@ const styles = StyleSheet.create({
   itemLabel: {
     fontSize: 15,
     fontWeight: "700",
+    textAlign: "right",
   },
   itemMeta: {
     fontSize: 12,

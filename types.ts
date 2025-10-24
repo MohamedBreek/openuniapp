@@ -55,7 +55,7 @@ export const MOCK_COURSES: Course[] = [
   {
     id: "c3",
     code: "20109",
-    title: " 1 אלגברה ליניארית",
+    title: "1 אלגברה ליניארית",
     semester: "2025-10",
     credits: 7,
     status: "רשום",
@@ -73,7 +73,7 @@ export const MOCK_COURSES: Course[] = [
     code: "10234",
     title: "2 אלגברה ליניארית",
     semester: "2025-10",
-    credits: 2,
+    credits: 7,
     status: "רשום",
   },
   {

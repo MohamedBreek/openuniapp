@@ -81,6 +81,7 @@ export default function DeanScreen() {
           title="דיקנט הסטודנטים"
           subtitle="גב חם לאורך כל המסע"
           description="ליווי אישי, סיוע כלכלי ומענה מהיר לכל המצבים שסטודנטים פוגשים במהלך הלימודים."
+          align="right"
         >
           <View style={styles.heroMetaRow}>
             <View style={styles.heroMetaPill}>
@@ -160,15 +161,21 @@ export default function DeanScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, gap: 18 },
+  container: {
+    padding: 20,
+    gap: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   heroMetaRow: {
     marginTop: 16,
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 10,
+    justifyContent: "flex-end",
   },
   heroMetaPill: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 6,
     paddingHorizontal: 14,
@@ -176,10 +183,21 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     backgroundColor: "rgba(255,255,255,0.18)",
   },
-  heroMetaText: { color: "#fff", fontWeight: "600" },
-  sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 12 },
+  heroMetaText: {
+    color: "#fff",
+    fontWeight: "600",
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   rowWithIcon: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     gap: 14,
     alignItems: "flex-start",
     paddingVertical: 12,
@@ -194,8 +212,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(21,101,216,0.12)",
   },
-  itemTitle: { fontWeight: "700", color: Colors.light.text },
-  itemDetail: { color: "#4B5563", marginTop: 4, lineHeight: 18 },
+  itemTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  itemDetail: {
+    color: "#4B5563",
+    marginTop: 4,
+    lineHeight: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   scheduleRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -213,15 +242,31 @@ const styles = StyleSheet.create({
     borderColor: "rgba(21,101,216,0.08)",
     gap: 6,
   },
-  initiativeName: { fontWeight: "700", color: Colors.light.text },
-  initiativeDescription: { color: "#4B5563", lineHeight: 18 },
+  initiativeName: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  initiativeDescription: {
+    color: "#4B5563",
+    lineHeight: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   contactRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 14,
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderColor: "rgba(21,101,216,0.08)",
   },
-  contactValue: { color: Colors.light.tint, fontWeight: "700", marginTop: 4 },
+  contactValue: {
+    color: Colors.light.tint,
+    fontWeight: "700",
+    marginTop: 4,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
 });

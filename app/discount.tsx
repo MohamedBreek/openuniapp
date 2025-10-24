@@ -107,7 +107,7 @@ export default function DiscountScreen() {
                 <Text style={styles.partnerPerk}>{partner.perk}</Text>
               </View>
               <IconSymbol
-                name="chevron.right"
+                name="chevron.left"
                 size={18}
                 color={Colors.light.tint}
               />
@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 10,
+    justifyContent: "flex-end",
   },
   heroPill: {
     flexDirection: "row",
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
     writingDirection: "rtl",
   },
   benefitRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     gap: 12,
     alignItems: "flex-start",
     marginBottom: 14,
@@ -192,7 +193,7 @@ const styles = StyleSheet.create({
     writingDirection: "rtl",
   },
   partnerRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 12,
@@ -213,7 +214,7 @@ const styles = StyleSheet.create({
     writingDirection: "rtl",
   },
   stepRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     gap: 12,
     alignItems: "flex-start",
     marginBottom: 14,

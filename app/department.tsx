@@ -84,6 +84,7 @@ export default function DepartmentScreen() {
           title="המחלקה"
           subtitle="קהילה אקדמית מתקדמת"
           description="הכירו את צוות ההנהלה, מסלולי ההתמחות והמשאבים שמזניקים את הסטודנטים קדימה."
+          align="right"
         >
           <View style={styles.heroMetaRow}>
             {metrics.map((metric) => (
@@ -158,12 +159,18 @@ export default function DepartmentScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, gap: 18 },
+  container: {
+    padding: 20,
+    gap: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   heroMetaRow: {
     marginTop: 18,
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 12,
+    justifyContent: "flex-end",
   },
   metricPill: {
     paddingHorizontal: 16,
@@ -171,17 +178,26 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     backgroundColor: "rgba(255,255,255,0.18)",
     minWidth: 120,
+    alignItems: "center",
   },
   metricValue: { color: "#fff", fontWeight: "800", fontSize: 18 },
   metricLabel: { color: "rgba(255,255,255,0.78)", fontSize: 12, marginTop: 4 },
-  sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 12 },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   leadershipRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     gap: 12,
     alignItems: "flex-start",
     paddingVertical: 13,
     borderBottomWidth: 1,
     borderColor: "rgba(21,101,216,0.08)",
+    textAlign: "right",
+    writingDirection: "rtl",
   },
   leadershipIcon: {
     width: 44,
@@ -191,11 +207,28 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(21,101,216,0.12)",
   },
-  itemTitle: { fontWeight: "700", color: Colors.light.text },
-  itemMeta: { color: Colors.light.tint, fontWeight: "600", marginTop: 2 },
-  itemDetail: { color: "#4B5563", marginTop: 4, lineHeight: 18 },
+  itemTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  itemMeta: {
+    color: Colors.light.tint,
+    fontWeight: "600",
+    marginTop: 2,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  itemDetail: {
+    color: "#4B5563",
+    marginTop: 4,
+    lineHeight: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   trackRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     gap: 12,
     alignItems: "flex-start",
     paddingVertical: 12,
@@ -211,7 +244,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(21,101,216,0.12)",
   },
   resourceRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     gap: 12,
     alignItems: "flex-start",
     paddingVertical: 12,

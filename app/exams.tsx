@@ -232,7 +232,7 @@ export default function ExamsScreen() {
                 <Text style={styles.serviceInfo}>{service.info}</Text>
               </View>
               <IconSymbol
-                name="chevron.right"
+                name="chevron.left"
                 size={18}
                 color={Colors.light.tint}
               />
@@ -258,8 +258,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     gap: 18,
-    textAlign: "right",
-    writingDirection: "rtl",
   },
   sectionTitle: {
     fontSize: 16,
@@ -268,9 +266,14 @@ const styles = StyleSheet.create({
     textAlign: "right",
     writingDirection: "rtl",
   },
-  heroBadgeRow: { marginTop: 16, gap: 10 },
+  heroBadgeRow: {
+    marginTop: 10,
+    gap: 10,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
   heroBadge: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 8,
     backgroundColor: "rgba(255,255,255,0.18)",
@@ -291,7 +294,7 @@ const styles = StyleSheet.create({
     writingDirection: "rtl",
   },
   examRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "flex-start",
     gap: 16,
     paddingVertical: 12,
@@ -345,7 +348,7 @@ const styles = StyleSheet.create({
   },
   examStatusText: { fontWeight: "700", fontSize: 12 },
   tipRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     gap: 12,
     alignItems: "flex-start",
     marginBottom: 14,
@@ -366,7 +369,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   timelineRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     gap: 12,
     alignItems: "flex-start",
     marginBottom: 14,
@@ -392,7 +395,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   serviceRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 14,
     paddingVertical: 12,

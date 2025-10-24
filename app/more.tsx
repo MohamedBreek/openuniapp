@@ -75,6 +75,7 @@ export default function MoreScreen() {
           title="עוד משאבים"
           subtitle="להוציא מהלימודים יותר"
           description="גישה לקישורים, קהילות וכלים שמעצימים את היום-יום הסטודנטיאלי."
+          align="right"
         >
           <View style={styles.heroRow}>
             <View style={styles.heroPill}>
@@ -104,7 +105,7 @@ export default function MoreScreen() {
                 <Text style={styles.itemDetail}>{link.detail}</Text>
               </View>
               <IconSymbol
-                name="chevron.right"
+                name="chevron.left"
                 size={18}
                 color={Colors.light.tint}
               />
@@ -152,9 +153,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
     flexWrap: "wrap",
+    justifyContent: "flex-end",
   },
   heroPill: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 6,
     paddingHorizontal: 14,
@@ -162,10 +164,21 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     backgroundColor: "rgba(255,255,255,0.18)",
   },
-  heroText: { color: "#fff", fontWeight: "600" },
-  sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 12 },
+  heroText: {
+    color: "#fff",
+    fontWeight: "600",
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   rowWithIcon: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 14,
     paddingVertical: 12,
@@ -180,8 +193,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(21,101,216,0.12)",
   },
-  itemTitle: { fontWeight: "700", color: Colors.light.text },
-  itemDetail: { color: "#4B5563", marginTop: 4, lineHeight: 18 },
+  itemTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  itemDetail: {
+    color: "#4B5563",
+    marginTop: 4,
+    lineHeight: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   communityRow: {
     paddingVertical: 12,
     borderBottomWidth: 1,

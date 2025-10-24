@@ -69,7 +69,17 @@ export default function CourseDetail() {
         bg: "rgba(19, 207, 102, 0.25)",
         color: "#0E9F53",
       },
+      הושלם: {
+        label: "הושלם",
+        bg: "rgba(19, 207, 102, 0.25)",
+        color: "#0E9F53",
+      },
       enrolled: {
+        label: "בתהליך",
+        bg: "rgba(29, 25, 25, 0.18)",
+        color: "#fff",
+      },
+      רשום: {
         label: "בתהליך",
         bg: "rgba(29, 25, 25, 0.18)",
         color: "#fff",
@@ -79,8 +89,22 @@ export default function CourseDetail() {
         bg: "rgba(217, 70, 70, 0.18)",
         color: "#C0392B",
       },
+      בוטל: {
+        label: "בוטל",
+        bg: "rgba(217, 70, 70, 0.18)",
+        color: "#C0392B",
+      },
     };
-    return map[course.status ?? "רשום"] ?? map.enrolled;
+    const statusKey = course.status ?? "רשום";
+    const normalizedKey =
+      typeof statusKey === "string"
+        ? statusKey.trim().toLowerCase()
+        : statusKey;
+    return (
+      map[statusKey] ??
+      (typeof normalizedKey === "string" ? map[normalizedKey] : undefined) ??
+      map["רשום"]
+    );
   }, [course]);
 
   const progress = useMemo(() => {
@@ -288,7 +312,7 @@ export default function CourseDetail() {
                     {item.subtitle}
                   </Text>
                 </View>
-                <IconSymbol name="chevron.right" color={mutedColor} size={18} />
+                <IconSymbol name="chevron.left" color={mutedColor} size={18} />
               </Pressable>
             ))}
           </Card>
@@ -319,7 +343,7 @@ export default function CourseDetail() {
                     {item.subtitle}
                   </Text>
                 </View>
-                <IconSymbol name="chevron.right" color={mutedColor} size={18} />
+                <IconSymbol name="chevron.left" color={mutedColor} size={18} />
               </Pressable>
             ))}
           </Card>
@@ -456,7 +480,7 @@ const styles = StyleSheet.create({
   },
   primaryButtonText: { color: "#000000ff", fontWeight: "800", fontSize: 16 },
   listItem: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,

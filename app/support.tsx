@@ -72,6 +72,7 @@ export default function SupportScreen() {
           title="תמיכה ושרות"
           subtitle="כאן בשבילכם בכל שעה"
           description="קבלו מענה מיידי, עקבו אחר פניות ונצלו את כל ערוצי השירות של האוניברסיטה."
+          align="right"
         >
           <View style={styles.heroMeta}>
             <IconSymbol name="checkmark.seal" size={16} color="#fff" />
@@ -95,7 +96,7 @@ export default function SupportScreen() {
                 <Text style={styles.channelDetail}>{channel.detail}</Text>
               </View>
               <IconSymbol
-                name="chevron.right"
+                name="chevron.left"
                 size={18}
                 color={Colors.light.tint}
               />
@@ -135,11 +136,22 @@ export default function SupportScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, gap: 18 },
-  sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 12 },
+  container: {
+    padding: 20,
+    gap: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   heroMeta: {
     marginTop: 16,
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 8,
     backgroundColor: "rgba(255,255,255,0.18)",
@@ -147,9 +159,14 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 999,
   },
-  heroMetaText: { color: "#fff", fontWeight: "600" },
+  heroMetaText: {
+    color: "#fff",
+    fontWeight: "600",
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   channelRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 14,
     paddingVertical: 12,
@@ -164,8 +181,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(21,101,216,0.12)",
   },
-  channelTitle: { fontWeight: "700", color: Colors.light.text },
-  channelDetail: { color: "#4B5563", marginTop: 4, fontSize: 12 },
+  channelTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  channelDetail: {
+    color: "#4B5563",
+    marginTop: 4,
+    fontSize: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   actionRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -174,8 +202,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "rgba(21,101,216,0.08)",
   },
-  actionLabel: { fontWeight: "700", color: Colors.light.text },
-  actionDescription: { color: "#4B5563", marginTop: 4, fontSize: 12 },
+  actionLabel: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  actionDescription: {
+    color: "#4B5563",
+    marginTop: 4,
+    fontSize: 12,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
   actionBadge: {
     backgroundColor: "rgba(21,101,216,0.12)",
     paddingHorizontal: 14,
@@ -189,6 +228,16 @@ const styles = StyleSheet.create({
     borderColor: "rgba(21,101,216,0.08)",
     gap: 6,
   },
-  faqQuestion: { fontWeight: "700", color: Colors.light.text },
-  faqAnswer: { color: "#4B5563", lineHeight: 18 },
+  faqQuestion: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  faqAnswer: {
+    color: "#4B5563",
+    lineHeight: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
 });
