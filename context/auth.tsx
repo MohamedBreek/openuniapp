@@ -10,6 +10,7 @@ import React, {
 } from "react";
 
 const TOKEN_KEY = "openu_token_v1";
+export const CREDENTIALS_KEY = "openu_credentials_v1";
 
 type AuthState = {
   token?: string;
@@ -90,6 +91,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // ignore storage errors for mock
     }
     try {
+      await SecureStore.setItem(
+        CREDENTIALS_KEY,
+        JSON.stringify({
+          username: username.trim(),
+          password,
+          id: id.trim(),
+        })
+      );
+    } catch {
+      // ignore credential persistence errors
+    }
+    try {
       router.replace("/");
     } catch {
       // ignore navigation errors in environments where router isn't available
@@ -122,6 +135,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setCourses([]);
     try {
       await SecureStore.setItem(TOKEN_KEY, t);
+    } catch {
+      // ignore
+    }
+    try {
+      await SecureStore.setItem(
+        CREDENTIALS_KEY,
+        JSON.stringify({
+          username: username.trim(),
+          password,
+          id: id.trim(),
+        })
+      );
     } catch {
       // ignore
     }

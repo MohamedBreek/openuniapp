@@ -1,55 +1,71 @@
 import { ThemedView } from "@/components/themed-view";
 import Card from "@/components/ui/card";
+import { FlashList } from "@/components/ui/FlashList";
 import { Colors } from "@/constants/theme";
 import { useAuth } from "@/context/auth";
+import { Course } from "@/types";
 import { useRouter } from "expo-router";
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function GradesScreen() {
-  // translations removed; Hebrew-only
   const { courses } = useAuth();
   const router = useRouter();
+
+  const courseList = React.useMemo<Course[]>(() => {
+    if (Array.isArray(courses)) return courses;
+    return [];
+  }, [courses]);
+
+  const handleCoursePress = React.useCallback(
+    (courseId: string) => {
+      try {
+        router.push(`/courses/${courseId}` as any);
+      } catch {
+        /* ignore navigation errors */
+      }
+    },
+    [router]
+  );
+
+  const renderCourse = React.useCallback(
+    ({ item }: { item: Course }) => (
+      <Card onPress={() => handleCoursePress(item.id)}>
+        <View style={styles.cardInner}>
+          <View style={styles.cardLeft}>
+            <Text style={styles.code}>{item.code}</Text>
+            <Text style={styles.titleSmall}>{item.title}</Text>
+            <Text style={styles.semester}>{item.semester}</Text>
+          </View>
+          <View style={styles.cardRight}>
+            <View
+              style={[
+                styles.gradeBadge,
+                { backgroundColor: Colors.light.tint },
+              ]}
+            >
+              <Text style={styles.gradeText}>{item.grade ?? "-"}</Text>
+            </View>
+          </View>
+        </View>
+      </Card>
+    ),
+    [handleCoursePress]
+  );
 
   return (
     <ThemedView style={styles.container} useGradient>
       <Text style={[styles.title, { color: Colors.light.tint }]}>ציונים</Text>
 
-      <FlatList
-        data={courses}
-        keyExtractor={(c) => c.id}
+      <FlashList<Course>
+        data={courseList}
+        keyExtractor={(item) => item.id}
         ListEmptyComponent={() => (
           <View style={styles.emptyState}>
             <Text style={styles.emptyText}>לא נמצאו קורסים להצגה</Text>
           </View>
         )}
-        renderItem={({ item }) => (
-          <Card
-            onPress={() => {
-              try {
-                router.push(`/courses/${item.id}` as any);
-              } catch {}
-            }}
-          >
-            <View style={styles.cardInner}>
-              <View style={styles.cardLeft}>
-                <Text style={styles.code}>{item.code}</Text>
-                <Text style={styles.titleSmall}>{item.title}</Text>
-                <Text style={styles.semester}>{item.semester}</Text>
-              </View>
-              <View style={styles.cardRight}>
-                <View
-                  style={[
-                    styles.gradeBadge,
-                    { backgroundColor: Colors.light.tint },
-                  ]}
-                >
-                  <Text style={styles.gradeText}>{item.grade ?? "-"}</Text>
-                </View>
-              </View>
-            </View>
-          </Card>
-        )}
+        renderItem={renderCourse}
       />
     </ThemedView>
   );

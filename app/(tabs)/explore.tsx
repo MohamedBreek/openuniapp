@@ -1,6 +1,6 @@
+import { FlashList } from "@/components/ui/FlashList";
 import React from "react";
 import {
-  FlatList,
   Pressable,
   StyleSheet,
   Text,
@@ -113,9 +113,9 @@ export default function MessagesScreen() {
             <ThemedText>No messages / אין הודעות</ThemedText>
           </View>
         ) : (
-          <FlatList
+          <FlashList<Message>
             data={filtered}
-            keyExtractor={(i) => i.id}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => <MessageItem item={item} />}
             contentContainerStyle={{ gap: 10, paddingBottom: 80 }}
           />

@@ -1,5 +1,6 @@
-import { useAuth } from "@/context/auth";
-import React, { useState } from "react";
+import { CREDENTIALS_KEY, useAuth } from "@/context/auth";
+import * as SecureStore from "@/utils/secureStorage";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -19,6 +20,25 @@ function LoginForm() {
   const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const stored = await SecureStore.getItem(CREDENTIALS_KEY);
+        if (!stored || !mounted) return;
+        const parsed = JSON.parse(stored);
+        if (typeof parsed.username === "string") setUsername(parsed.username);
+        if (typeof parsed.password === "string") setPassword(parsed.password);
+        if (typeof parsed.id === "string") setId(parsed.id);
+      } catch {
+        // ignore malformed payloads
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const onSubmit = async () => {
     setError(null);

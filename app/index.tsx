@@ -5,13 +5,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
-  FlatList,
   I18nManager,
   Pressable,
   RefreshControl,
   StyleSheet,
   Text,
   View,
+  FlatList,
 } from "react-native";
 
 import HeaderMenu from "@/components/HeaderMenu";
@@ -19,11 +19,32 @@ import ParallaxScrollView from "@/components/parallax-scroll-view";
 import StudentCardModal from "@/components/StudentCardModal";
 import { ThemedView } from "@/components/themed-view";
 import { useAuth } from "@/context/auth";
-// translations removed - app is Hebrew-only
+
+const TILE_DATA = [
+  { id: "t1", title: "לוח שלי", href: "/calendar", icon: "calendar" },
+  { id: "t2", title: "מבחנים", href: "/exams", icon: "doc.text" },
+  { id: "t3", title: "ציונים", href: "/grades", icon: "checkmark.seal" },
+  { id: "t4", title: "תמיכה", href: "/support", icon: "bubble.left" },
+  { id: "t5", title: "הנחות", href: "/discount", icon: "bus" },
+  { id: "t6", title: "כרטיס סטודנט", href: "/student-card", icon: "id.card" },
+  { id: "t7", title: "דקאן", href: "/dean", icon: "hand.heart" },
+  { id: "t8", title: "מחלקה", href: "/department", icon: "graduationcap" },
+  { id: "t9", title: "עוד", href: "/more", icon: "ellipsis.circle" },
+] as const;
+
+const STATUS_LABELS: Record<string, string> = {
+  active: "סטודנט פעיל",
+  "on-leave": "בחופשה",
+  graduated: "סיים לימודים",
+  suspended: "השהיה",
+};
+
+type Tile = (typeof TILE_DATA)[number];
 
 export default function HomeScreen() {
   const { student, courses, refreshCourses, refreshing } = useAuth();
   const [modalVisible, setModalVisible] = React.useState(false);
+  const router = useRouter();
 
   const handleRefresh = React.useCallback(() => {
     refreshCourses().catch(() => {
@@ -31,51 +52,81 @@ export default function HomeScreen() {
     });
   }, [refreshCourses]);
 
-  // translations removed; use Hebrew literals
-
-  const tiles = [
-    { id: "t1", title: "לוח שלי", href: "/calendar", icon: "calendar" },
-    { id: "t2", title: "מבחנים", href: "/exams", icon: "doc.text" },
-    { id: "t3", title: "ציונים", href: "/grades", icon: "checkmark.seal" },
-    { id: "t4", title: "תמיכה", href: "/support", icon: "bubble.left" },
-    { id: "t5", title: "הנחות", href: "/discount", icon: "bus" },
-    { id: "t6", title: "כרטיס סטודנט", href: "/student-card", icon: "id.card" },
-    { id: "t7", title: "דקאן", href: "/dean", icon: "hand.heart" },
-    { id: "t8", title: "מחלקה", href: "/department", icon: "graduationcap" },
-    { id: "t9", title: "עוד", href: "/more", icon: "ellipsis.circle" },
-  ];
-
-  const router = useRouter();
-  const courseList = Array.isArray(courses) ? courses : [];
-  const activeCourses = courseList.filter((c) => c.status !== "completed");
-  const completedCourses = courseList.filter((c) => c.status === "completed");
+  const tiles = React.useMemo(() => TILE_DATA, []);
+  const courseList = React.useMemo(
+    () => (Array.isArray(courses) ? courses : []),
+    [courses]
+  );
+  const activeCourses = React.useMemo(
+    () => courseList.filter((c) => c.status !== "completed"),
+    [courseList]
+  );
+  const completedCourses = React.useMemo(
+    () => courseList.filter((c) => c.status === "completed"),
+    [courseList]
+  );
   const nextCourse = activeCourses[0];
-  const statusLabelMap: Record<string, string> = {
-    active: "סטודנט פעיל",
-    "on-leave": "בחופשה",
-    graduated: "סיים לימודים",
-    suspended: "השהיה",
-  };
-  const stats = [
-    {
-      id: "gpa",
-      value: typeof student?.gpa === "number" ? student.gpa.toFixed(1) : "--",
-      label: "ממוצע מצטבר",
-      hint: "עודכן לאחרונה",
+
+  const stats = React.useMemo(
+    () => [
+      {
+        id: "gpa",
+        value: typeof student?.gpa === "number" ? student.gpa.toFixed(1) : "--",
+        label: "ממוצע מצטבר",
+        hint: "עודכן לאחרונה",
+      },
+      {
+        id: "active",
+        value: String(activeCourses.length),
+        label: "קורסים פעילים",
+        hint: "סמסטר נוכחי",
+      },
+      {
+        id: "completed",
+        value: String(completedCourses.length),
+        label: "הושלמו",
+        hint: STATUS_LABELS[student?.status ?? "active"] ?? "",
+      },
+    ],
+    [
+      activeCourses.length,
+      completedCourses.length,
+      student?.gpa,
+      student?.status,
+    ]
+  );
+
+  const handleTilePress = React.useCallback(
+    (href: string) => {
+      try {
+        router.push(href as any);
+      } catch {
+        /* ignore navigation errors */
+      }
     },
-    {
-      id: "active",
-      value: String(activeCourses.length),
-      label: "קורסים פעילים",
-      hint: "סמסטר נוכחי",
-    },
-    {
-      id: "completed",
-      value: String(completedCourses.length),
-      label: "הושלמו",
-      hint: statusLabelMap[student?.status ?? "active"] ?? "",
-    },
-  ];
+    [router]
+  );
+
+  const renderTile = React.useCallback(
+    ({ item }: { item: Tile }) => (
+      <Pressable
+        style={styles.tile}
+        android_ripple={{ color: "rgba(0,0,0,0.06)" }}
+        accessibilityRole="button"
+        onPress={() => handleTilePress(item.href)}
+      >
+        <View
+          style={[styles.tileIconWrap, { backgroundColor: Colors.light.tint }]}
+        >
+          <IconSymbol name={item.icon} size={20} color="#fff" />
+        </View>
+        <Text style={[styles.tileText, { color: Colors.light.text }]}>
+          {item.title}
+        </Text>
+      </Pressable>
+    ),
+    [handleTilePress]
+  );
 
   return (
     <ParallaxScrollView
@@ -148,41 +199,16 @@ export default function HomeScreen() {
           יישומים חשובים
         </Text>
 
-        <FlatList
+        <FlatList<Tile>
           data={tiles}
-          keyExtractor={(t) => t.id}
+          keyExtractor={(item) => item.id}
           numColumns={3}
           contentContainerStyle={styles.tileListContent}
           columnWrapperStyle={[
             styles.tileRow,
             I18nManager.isRTL && styles.tileRowRtl,
           ]}
-          renderItem={({ item }) => (
-            <Pressable
-              style={styles.tile}
-              android_ripple={{ color: "rgba(0,0,0,0.06)" }}
-              accessibilityRole="button"
-              onPress={() => {
-                try {
-                  router.push(item.href as any);
-                } catch {
-                  /* ignore */
-                }
-              }}
-            >
-              <View
-                style={[
-                  styles.tileIconWrap,
-                  { backgroundColor: Colors.light.tint },
-                ]}
-              >
-                <IconSymbol name={item.icon} size={20} color="#fff" />
-              </View>
-              <Text style={[styles.tileText, { color: Colors.light.text }]}>
-                {item.title}
-              </Text>
-            </Pressable>
-          )}
+          renderItem={renderTile}
         />
 
         <View style={styles.newsCard}>
