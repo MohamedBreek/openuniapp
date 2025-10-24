@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   cardRight: { width: 64, alignItems: "center" },
   code: { fontWeight: "800", color: "#222" },
   titleSmall: { color: "#444", marginTop: 6 },
-  semester: { color: "#777", marginTop: 6, fontSize: 12 },
+  semester: { color: "#000000ff", marginTop: 6, fontSize: 12 },
   gradeBadge: {
     width: 52,
     height: 52,
@@ -107,5 +107,5 @@ const styles = StyleSheet.create({
   },
   gradeText: { color: "#fff", fontWeight: "800", fontSize: 16 },
   emptyState: { padding: 24, alignItems: "center" },
-  emptyText: { color: "#666" },
+  emptyText: { color: "#000000ff" },
 });

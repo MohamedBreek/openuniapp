@@ -34,7 +34,7 @@ export function ThemedView({
     >
       {useGradient ? (
         <LinearGradient
-          colors={["#e4efff", "#ffffff"]}
+          colors={["#adc9fdff", "#e6eeffff"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           pointerEvents="none"

@@ -5,13 +5,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
+  FlatList,
   I18nManager,
   Pressable,
   RefreshControl,
   StyleSheet,
   Text,
   View,
-  FlatList,
 } from "react-native";
 
 import HeaderMenu from "@/components/HeaderMenu";
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
   },
   avatarSmall: { width: 44, height: 44, borderRadius: 22, overflow: "hidden" },
   avatarSmallImg: { width: 44, height: 44 },
-  headerLogo: { height: 44, width: 160 },
+  headerLogo: { height: 44, width: 250 },
   menuButton: { padding: 8 },
   menuText: { fontSize: 24 },
   sectionTitle: { fontSize: 18, fontWeight: "800", marginVertical: 8 },

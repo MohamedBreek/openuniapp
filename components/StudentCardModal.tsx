@@ -28,15 +28,15 @@ export default function StudentCardModal({
   id,
 }: Props) {
   const { width: screenWidth } = useWindowDimensions();
-  const containerWidth = Math.min(screenWidth * 0.96, 680);
+  const containerWidth = Math.min(screenWidth * 0.98, 760);
   const horizontalPadding =
-    screenWidth >= 640 ? 40 : screenWidth >= 480 ? 32 : 22;
+    screenWidth >= 640 ? 34 : screenWidth >= 480 ? 26 : 18;
   const verticalPadding =
-    screenWidth >= 640 ? 38 : screenWidth >= 480 ? 32 : 26;
+    screenWidth >= 640 ? 44 : screenWidth >= 480 ? 36 : 28;
   const backdropPadding =
     screenWidth >= 640 ? 34 : screenWidth >= 480 ? 20 : 12;
   const imageAspect =
-    screenWidth >= 640 ? 1.7 : screenWidth >= 480 ? 1.6 : 1.52;
+    screenWidth >= 640 ? 0.68 : screenWidth >= 480 ? 0.66 : 0.64;
   const identitySpacing = screenWidth >= 480 ? 26 : 18;
   const nameFontSize = screenWidth >= 520 ? 22 : screenWidth >= 400 ? 20 : 18;
   const idFontSize = screenWidth >= 520 ? 17 : screenWidth >= 400 ? 15 : 14;

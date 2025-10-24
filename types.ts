@@ -39,7 +39,7 @@ export const MOCK_COURSES: Course[] = [
     code: "04101",
     title: "אשנב למתמטיקה",
     semester: "2025-10",
-    credits: 3,
+    credits: 6,
     grade: "90",
     status: "completed",
   },
@@ -57,7 +57,7 @@ export const MOCK_COURSES: Course[] = [
     code: "20109",
     title: "1 אלגברה ליניארית",
     semester: "2025-10",
-    credits: 2,
+    credits: 7,
     status: "enrolled",
   },
   {
@@ -65,7 +65,7 @@ export const MOCK_COURSES: Course[] = [
     code: "20441",
     title: "java מבוא למדעי המחשב",
     semester: "2025-10",
-    credits: 3,
+    credits: 6,
     status: "enrolled",
   },
   {
