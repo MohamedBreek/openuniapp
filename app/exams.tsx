@@ -258,6 +258,8 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     gap: 18,
+    textAlign: "right",
+    writingDirection: "rtl",
   },
   sectionTitle: {
     fontSize: 16,

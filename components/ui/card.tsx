@@ -20,13 +20,6 @@ export default function Card({
       style={[styles.card, style as any]}
       onPress={onPress}
       accessibilityLabel={accessibilityLabel}
-      {...(onPress
-        ? {
-            accessibilityRole: "button",
-            accessibilityHint: accessibilityLabel ? undefined : "פתח כרטיס",
-            hitSlop: 8,
-          }
-        : {})}
     >
       {children}
     </Container>
@@ -36,14 +29,14 @@ export default function Card({
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "rgba(255,255,255,0.9)",
-    borderRadius: 24,
-    padding: 26,
-    marginBottom: 24,
+    borderRadius: 28,
+    padding: 30,
+    marginBottom: 28,
     borderWidth: 1,
     borderColor: "rgba(21,101,216,0.08)",
     shadowColor: "#1565D8",
     shadowOpacity: 0.12,
-    shadowRadius: 26,
-    elevation: 7,
+    shadowRadius: 28,
+    elevation: 9,
   },
 });

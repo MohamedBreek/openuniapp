@@ -12,6 +12,7 @@ import {
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from "react-native";
 
 import HeaderMenu from "@/components/HeaderMenu";
@@ -45,6 +46,8 @@ export default function HomeScreen() {
   const { student, courses, refreshCourses, refreshing } = useAuth();
   const [modalVisible, setModalVisible] = React.useState(false);
   const router = useRouter();
+  const { width } = useWindowDimensions();
+  const isWide = width >= 900;
 
   const handleRefresh = React.useCallback(() => {
     refreshCourses().catch(() => {
@@ -216,16 +219,115 @@ export default function HomeScreen() {
           ))}
         </View>
 
-        <View style={styles.newsCard}>
-          <View style={styles.newsHeader}>
-            <Text style={styles.newsSource}>חדשות האוניברסיטה</Text>
-            <Text style={styles.newsTime}>11:30 ,25/09/24</Text>
+        {/* News grid: featured + smaller cards */}
+        <View style={styles.newsHeaderRow}>
+          <Text style={styles.newsSectionTitle}>חדשות</Text>
+        </View>
+        <View style={styles.newsContainer}>
+          <View
+            style={[
+              styles.newsGrid,
+              isWide ? styles.newsGridWide : styles.newsGridNarrow,
+            ]}
+          >
+            <Pressable
+              style={styles.bigNews}
+              onPress={() => {
+                Linking.openURL("https://www.openu.ac.il").catch(() => {});
+              }}
+              accessibilityRole="link"
+            >
+              <Image
+                source={require("@/assets/images/download.jpeg")}
+                style={styles.bigNewsImage}
+              />
+              <View style={styles.bigNewsContent}>
+                <Text style={styles.bigNewsTitle}>
+                  הרשמה לסמסטר הקרוב בעיצומה
+                </Text>
+                <Text style={styles.bigNewsMeta}>הרשמו עכשיו באתר</Text>
+              </View>
+            </Pressable>
+
+            <View
+              style={[
+                styles.smallNewsColumn,
+                isWide
+                  ? styles.smallNewsColumnWide
+                  : styles.smallNewsColumnNarrow,
+              ]}
+            >
+              <Pressable
+                style={styles.smallNews}
+                onPress={() => {
+                  Linking.openURL("https://www.openu.ac.il").catch(() => {});
+                }}
+                accessibilityRole="link"
+              >
+                <Image
+                  source={{
+                    uri: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=3f4b2e2d6a7a3c9d5e6f7b8c9d0e1f2a",
+                  }}
+                  style={styles.smallNewsImage}
+                />
+                <View style={styles.smallNewsBody}>
+                  <Text style={styles.smallNewsTitle}>
+                    שנתיים ל-7.10 — עדויות שורדי הנוה
+                  </Text>
+                  <Text style={styles.smallNewsMeta}>וידאו ומידע נוסף</Text>
+                </View>
+              </Pressable>
+              <View style={styles.smallRow}>
+                <Pressable
+                  style={styles.tileSmall}
+                  onPress={() => {
+                    Linking.openURL("https://www.openu.ac.il").catch(() => {});
+                  }}
+                  accessibilityRole="link"
+                >
+                  <Image
+                    source={{
+                      uri: "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d",
+                    }}
+                    style={styles.tileSmallImage}
+                  />
+                  <View style={styles.tileSmallBody}>
+                    <Text style={styles.tileSmallTitle}>הודעה חשובה</Text>
+                  </View>
+                </Pressable>
+
+                <Pressable
+                  style={styles.tileSmall}
+                  onPress={() => {
+                    Linking.openURL("https://www.openu.ac.il").catch(() => {});
+                  }}
+                  accessibilityRole="link"
+                >
+                  <Image
+                    source={require("@/assets/images/mgesh.jpg")}
+                    style={styles.tileSmallImage}
+                  />
+                  <View style={styles.tileSmallBody}>
+                    <Text style={styles.tileSmallTitle}>
+                      קורס מגיש — פתיחת הרשמה
+                    </Text>
+                  </View>
+                </Pressable>
+              </View>
+            </View>
           </View>
-          <Text style={styles.newsTitle}>פתיחת סמסטר חדש</Text>
-          <Text style={styles.newsBody} numberOfLines={4}>
-            פתיחת סמסטר אוקטובר — הרשמה לקורסים נפתחה. יש להשלים תהליך רישום עד
-            סוף החודש.
-          </Text>
+
+          <Pressable
+            onPress={() =>
+              Linking.openURL(
+                "https://www.openu.ac.il/allnews/pages/default.aspx"
+              ).catch(() => {})
+            }
+            style={{ marginTop: 10 }}
+            accessibilityRole="link"
+          >
+            <Text style={{ color: Colors.light.tint }}>לכל החדשות</Text>
+          </Pressable>
         </View>
 
         <StudentCardModal
@@ -551,4 +653,83 @@ const styles = StyleSheet.create({
   },
   eventDateMonth: { fontSize: 11, color: Colors.light.tint, fontWeight: "700" },
   eventDateDay: { fontSize: 16, color: Colors.light.tint, fontWeight: "800" },
+  /* News grid styles */
+  newsContainer: { marginTop: 12 },
+  newsHeaderRow: { alignItems: "flex-end", marginTop: 8 },
+  newsSectionTitle: {
+    fontSize: 20,
+    fontWeight: "800",
+    color: Colors.light.tint,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  newsGrid: { flexDirection: "row-reverse", gap: 12, alignItems: "flex-start" },
+  newsGridWide: { flexDirection: "row-reverse" },
+  newsGridNarrow: { flexDirection: "column" },
+  bigNews: {
+    flex: 2,
+    marginLeft: 12,
+    borderRadius: 12,
+    overflow: "hidden",
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "rgba(21,101,216,0.06)",
+  },
+  bigNewsWide: { flex: 2 },
+  bigNewsNarrow: { flex: 0, width: "100%" },
+  bigNewsImage: { width: "100%", height: 140, resizeMode: "cover" },
+  bigNewsContent: { padding: 12 },
+  bigNewsTitle: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  bigNewsMeta: { color: Colors.light.icon, marginTop: 6, textAlign: "right" },
+  smallNewsColumn: { flex: 1, marginRight: 6 },
+  smallNewsColumnWide: { flex: 1 },
+  smallNewsColumnNarrow: { width: "100%", marginRight: 0, marginTop: 10 },
+  smallNews: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "rgba(21,101,216,0.06)",
+    alignItems: "center",
+  },
+  smallNewsImage: { width: 100, height: 80, resizeMode: "cover" },
+  smallNewsBody: { flex: 1, padding: 10 },
+  smallNewsTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  smallNewsMeta: { color: Colors.light.icon, marginTop: 6, textAlign: "right" },
+  smallRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  tileSmall: {
+    flex: 1,
+    marginHorizontal: 6,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "rgba(21,101,216,0.06)",
+    alignItems: "center",
+  },
+  tileSmallImage: { width: "100%", height: 72, resizeMode: "cover" },
+  tileSmallBody: { padding: 8 },
+  tileSmallTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    textAlign: "right",
+    writingDirection: "rtl",
+    fontSize: 13,
+  },
 });
