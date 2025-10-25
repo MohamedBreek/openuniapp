@@ -63,7 +63,15 @@ export function IconSymbol({
   weight?: SymbolWeight;
 }) {
   const mapped = MAPPING[name] ?? "help-outline";
+  // Icons are decorative by default; hide them from screen readers unless
+  // an explicit accessibilityLabel is passed via `style` or wrapper.
   return (
-    <MaterialIcons color={color} size={size} name={mapped} style={style} />
+    <MaterialIcons
+      color={color}
+      size={size}
+      name={mapped}
+      style={style}
+      accessible={false}
+    />
   );
 }

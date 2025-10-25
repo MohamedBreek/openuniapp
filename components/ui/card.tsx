@@ -20,6 +20,13 @@ export default function Card({
       style={[styles.card, style as any]}
       onPress={onPress}
       accessibilityLabel={accessibilityLabel}
+      {...(onPress
+        ? {
+            accessibilityRole: "button",
+            accessibilityHint: accessibilityLabel ? undefined : "פתח כרטיס",
+            hitSlop: 8,
+          }
+        : {})}
     >
       {children}
     </Container>

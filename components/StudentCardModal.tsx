@@ -62,6 +62,10 @@ export default function StudentCardModal({
       <Pressable
         style={[styles.backdrop, { padding: backdropPadding }]}
         onPress={onClose}
+        accessibilityRole="button"
+        accessibilityLabel="סגור"
+        accessibilityHint="סוגר את חלון כרטיס הסטודנט"
+        hitSlop={8}
       >
         <Pressable
           style={[
@@ -81,6 +85,10 @@ export default function StudentCardModal({
               { right: horizontalPadding - 6, top: verticalPadding - 12 },
             ]}
             onPress={onClose}
+            accessibilityRole="button"
+            accessibilityLabel="סגור"
+            accessibilityHint="סוגר את חלון כרטיס הסטודנט"
+            hitSlop={8}
           >
             <Text style={styles.closeText}>סגור</Text>
           </Pressable>

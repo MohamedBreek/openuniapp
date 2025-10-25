@@ -69,6 +69,11 @@ export default function SystemScreen() {
   });
   const [selectedDateKey, setSelectedDateKey] = React.useState(todayKey);
 
+  // stable handler for selecting a day
+  const handleSelectDate = React.useCallback((dateKey: string) => {
+    setSelectedDateKey(dateKey);
+  }, []);
+
   const schedule = [
     {
       id: "1",
@@ -258,6 +263,51 @@ export default function SystemScreen() {
     todayKey,
   ]);
 
+  // Small memoized day component to avoid re-renders of the whole grid
+  const CalendarDay = React.useMemo(() => {
+    return React.memo(function _CalendarDay({
+      cell,
+      onPress,
+    }: {
+      cell: CalendarCell;
+      onPress: (dateKey: string) => void;
+    }) {
+      if (!cell.label || !cell.dateKey) {
+        return <View key={cell.key} style={styles.calendarDayPlaceholder} />;
+      }
+
+      const isToday = cell.isToday;
+      const isSelected = cell.isSelected;
+      const hasEvents = cell.hasEvents;
+
+      const accessibilityLabel = `יום ${cell.label}${isToday ? " - היום" : ""}${
+        hasEvents ? " - יש אירועים" : ""
+      }${isSelected ? " - מסומן" : ""}`;
+
+      return (
+        <Pressable
+          style={[styles.calendarDay, isSelected && styles.calendarDaySelected]}
+          onPress={() => onPress(cell.dateKey!)}
+          accessibilityRole="button"
+          accessibilityLabel={accessibilityLabel}
+          accessibilityHint="בחירת יום להצגת אירועים"
+          hitSlop={8}
+        >
+          <Text
+            style={[
+              styles.calendarDayText,
+              isToday && styles.calendarDayTodayText,
+              isSelected && styles.calendarDaySelectedText,
+            ]}
+          >
+            {cell.label}
+          </Text>
+          {hasEvents ? <View style={styles.calendarDayDot} /> : null}
+        </Pressable>
+      );
+    });
+  }, []);
+
   React.useEffect(() => {
     const selected = new Date(selectedDateKey + "T00:00:00");
     if (
@@ -325,6 +375,20 @@ export default function SystemScreen() {
               </Pressable>
               <Text style={styles.calendarMonthLabel}>{monthLabel}</Text>
               <Pressable
+                style={styles.todayButton}
+                onPress={() => {
+                  const now = new Date();
+                  setCurrentMonthDate(
+                    new Date(now.getFullYear(), now.getMonth(), 1)
+                  );
+                  setSelectedDateKey(todayKey);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel="חזור להיום"
+              >
+                <Text style={styles.todayButtonText}>היום</Text>
+              </Pressable>
+              <Pressable
                 style={styles.calendarNavButton}
                 onPress={() => handleMonthShift("next")}
                 accessibilityRole="button"
@@ -348,41 +412,13 @@ export default function SystemScreen() {
 
             {calendarWeeks.map((week, index) => (
               <View key={`week-${index}`} style={styles.calendarWeekRow}>
-                {week.map((cell) => {
-                  if (!cell.label || !cell.dateKey) {
-                    return (
-                      <View
-                        key={cell.key}
-                        style={styles.calendarDayPlaceholder}
-                      />
-                    );
-                  }
-                  return (
-                    <Pressable
-                      key={cell.key}
-                      style={[
-                        styles.calendarDay,
-                        cell.isSelected && styles.calendarDaySelected,
-                      ]}
-                      onPress={() => setSelectedDateKey(cell.dateKey!)}
-                      accessibilityRole="button"
-                      accessibilityLabel={`יום ${cell.label}`}
-                    >
-                      <Text
-                        style={[
-                          styles.calendarDayText,
-                          cell.isToday && styles.calendarDayTodayText,
-                          cell.isSelected && styles.calendarDaySelectedText,
-                        ]}
-                      >
-                        {cell.label}
-                      </Text>
-                      {cell.hasEvents ? (
-                        <View style={styles.calendarDayDot} />
-                      ) : null}
-                    </Pressable>
-                  );
-                })}
+                {week.map((cell) => (
+                  <CalendarDay
+                    key={cell.key}
+                    cell={cell}
+                    onPress={handleSelectDate}
+                  />
+                ))}
               </View>
             ))}
           </Card>
@@ -490,7 +526,7 @@ const styles = StyleSheet.create({
   },
   heroMetaRow: { marginTop: 14, gap: 8 },
   heroMetaBadge: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 8,
     backgroundColor: "rgba(255,255,255,0.18)",
@@ -524,6 +560,15 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: Colors.light.text,
   },
+  todayButton: {
+    marginTop: 6,
+    alignSelf: "flex-start",
+    backgroundColor: "rgba(21,101,216,0.08)",
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+  },
+  todayButtonText: { color: Colors.light.tint, fontWeight: "700" },
   calendarWeekDaysRow: {
     flexDirection: "row-reverse",
     justifyContent: "space-between",
