@@ -5,7 +5,7 @@ import HeroBanner from "@/components/ui/hero-banner";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function MoreScreen() {
   const quickLinks = [
@@ -20,6 +20,7 @@ export default function MoreScreen() {
       title: "ספרייה דיגיטלית",
       detail: "גישה ל-30,000 ספרים ומאמרים אקדמיים",
       icon: "book.fill",
+      url: "https://www.openu.ac.il/library/pages/default.aspx",
     },
     {
       id: "l3",
@@ -92,7 +93,22 @@ export default function MoreScreen() {
         <Card>
           <Text style={styles.sectionTitle}>קישורים מהירים</Text>
           {quickLinks.map((link) => (
-            <View key={link.id} style={styles.rowWithIcon}>
+            <Pressable
+              key={link.id}
+              style={styles.rowWithIcon}
+              onPress={() => {
+                if (link.url) {
+                  Linking.openURL(link.url).catch(() => {
+                    /* ignore open errors for now */
+                  });
+                }
+              }}
+              android_ripple={{ color: "rgba(0,0,0,0.04)" }}
+              accessibilityRole={link.url ? "link" : undefined}
+              accessibilityHint={
+                link.url ? "פתח קישור לספרייה הדיגיטלית" : undefined
+              }
+            >
               <View style={styles.iconPill}>
                 <IconSymbol
                   name={link.icon}
@@ -109,7 +125,7 @@ export default function MoreScreen() {
                 size={18}
                 color={Colors.light.tint}
               />
-            </View>
+            </Pressable>
           ))}
         </Card>
 

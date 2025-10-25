@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import {
   I18nManager,
+  Linking,
   Pressable,
   RefreshControl,
   StyleSheet,
@@ -23,11 +24,11 @@ const TILE_DATA = [
   { id: "t1", title: "לוח שלי", href: "/calendar", icon: "calendar" },
   { id: "t2", title: "מבחנים", href: "/exams", icon: "doc.text" },
   { id: "t3", title: "ציונים", href: "/grades", icon: "checkmark.seal" },
-  { id: "t4", title: "תמיכה", href: "/support", icon: "bubble.left" },
-  { id: "t5", title: "הנחות", href: "/discount", icon: "bus" },
-  { id: "t6", title: "ת.סט", href: "/student-card", icon: "id.card" },
-  { id: "t7", title: "דקאן", href: "/dean", icon: "hand.heart" },
-  { id: "t8", title: "מחלקה", href: "/department", icon: "graduationcap" },
+  { id: "t4", title: "ת.סט", href: "/student-card", icon: "id.card" },
+  { id: "t5", title: "הודעות", href: "/messages", icon: "envelope" },
+  { id: "t6", title: "תמיכה", href: "/support", icon: "bubble.left" },
+  { id: "t7", title: "הנחות", href: "/discount", icon: "bus" },
+  { id: "t8", title: "דקאן", href: "/dean", icon: "hand.heart" },
   { id: "t9", title: "עוד", href: "/more", icon: "ellipsis.circle" },
 ] as const;
 
@@ -234,6 +235,73 @@ export default function HomeScreen() {
           name={student?.fullName}
           id={student?.id}
         />
+        <View style={{ height: 12 }} />
+
+        {/* Events preview section */}
+        <Text style={[styles.sectionTitle, { color: Colors.light.tint }]}>
+          אירועים
+        </Text>
+        <View style={styles.eventsRow}>
+          <Pressable
+            style={styles.eventCard}
+            onPress={() => {
+              Linking.openURL(
+                "https://www.openu.ac.il/events/mlbd19112025.aspx"
+              ).catch(() => {});
+            }}
+            accessibilityRole="link"
+          >
+            <Image
+              source={{
+                uri: "https://images.unsplash.com/photo-1532619675605-9f3b6f2f4b2d?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=6c927a7a5d4f8d5d8a3f7b9b1c1f9b3a",
+              }}
+              style={styles.eventImage}
+            />
+            <View style={styles.eventBody}>
+              <Text numberOfLines={2} style={styles.eventTitle}>
+                מפגש מידע על תואר שני בלמידת מכונה
+              </Text>
+              <View style={styles.eventMetaRow}>
+                <Text style={styles.eventMetaText}>Zoom</Text>
+                <Text style={styles.eventMetaText}>19.00</Text>
+              </View>
+            </View>
+            <View style={styles.eventDateBadge}>
+              <Text style={styles.eventDateMonth}>נוב</Text>
+              <Text style={styles.eventDateDay}>19</Text>
+            </View>
+          </Pressable>
+
+          <Pressable
+            style={styles.eventCard}
+            onPress={() => {
+              Linking.openURL(
+                "https://www.openu.ac.il/events/mba02112025.aspx"
+              ).catch(() => {});
+            }}
+            accessibilityRole="link"
+          >
+            <Image
+              source={{
+                uri: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=2c6f2b6defb3f7e5f6a8c9d6b4a8c8d2",
+              }}
+              style={styles.eventImage}
+            />
+            <View style={styles.eventBody}>
+              <Text numberOfLines={2} style={styles.eventTitle}>
+                מפגש מידע לתואר שני במנהל עסקים
+              </Text>
+              <View style={styles.eventMetaRow}>
+                <Text style={styles.eventMetaText}>Zoom</Text>
+                <Text style={styles.eventMetaText}>20.00</Text>
+              </View>
+            </View>
+            <View style={styles.eventDateBadge}>
+              <Text style={styles.eventDateMonth}>נוב</Text>
+              <Text style={styles.eventDateDay}>2</Text>
+            </View>
+          </Pressable>
+        </View>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -438,4 +506,49 @@ const styles = StyleSheet.create({
     writingDirection: "rtl",
   },
   greetingText: { fontSize: 20, fontWeight: "800", color: Colors.light.text },
+  /* Events preview styles */
+  eventsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 12,
+  },
+  eventCard: {
+    flex: 1,
+    marginHorizontal: 6,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "rgba(21,101,216,0.06)",
+  },
+  eventImage: { width: "100%", height: 88, resizeMode: "cover" },
+  eventBody: { padding: 10 },
+  eventTitle: {
+    fontWeight: "700",
+    color: Colors.light.text,
+    fontSize: 13,
+    textAlign: "right",
+    writingDirection: "rtl",
+  },
+  eventMetaRow: {
+    flexDirection: "row-reverse",
+    justifyContent: "flex-start",
+    gap: 8,
+    marginTop: 8,
+  },
+  eventMetaText: { color: Colors.light.icon, fontSize: 12, marginLeft: 6 },
+  eventDateBadge: {
+    position: "absolute",
+    left: 10,
+    top: 8,
+    backgroundColor: "#fff",
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 6,
+  },
+  eventDateMonth: { fontSize: 11, color: Colors.light.tint, fontWeight: "700" },
+  eventDateDay: { fontSize: 16, color: Colors.light.tint, fontWeight: "800" },
 });

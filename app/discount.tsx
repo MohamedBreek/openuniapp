@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   heroPill: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     gap: 6,
     paddingHorizontal: 14,

@@ -114,9 +114,9 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
-              name="department"
+              name="messages"
               options={{
-                title: "המחלקה שלי",
+                title: "הודעות",
               }}
             />
             <Stack.Screen
