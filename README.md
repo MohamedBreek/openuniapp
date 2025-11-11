@@ -1,5 +1,5 @@
 # OpenUniApp
-Open Uni App for students — a companion app for Open University students to view courses, grades, schedule and campus news.
+Open University of Israel App for students — a companion app for Open University students to view courses, grades, schedule and campus news.
 
 > NOTE: This README includes usage instructions and how to add the screenshot image you provided (referenced as image1 in our conversation). The UI screenshot appears to be in Hebrew and shows the Open University layout.
 
