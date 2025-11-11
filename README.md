@@ -4,12 +4,13 @@ Open University of Israel App for students — a companion app for Open Universi
 
 ---
 
-## Features
-- Student dashboard: name, current semester, next lesson
-- Quick stats: average grade, number of active courses, credits
-- Useful shortcuts: grades, schedule, messages, notices, exams, and more
+## Key features
+- Personal dashboard: student name, current semester, next lesson
+- Academic summary: average grade, active courses, credits/points
+- Quick actions: schedule, grades, messages, notices, exams, resources
 - News and announcements feed
-- Localized (Hebrew) UI support (example screenshot included)
+- Localized UI (example: Hebrew support)
+- Mobile-first responsive design (React Native / Expo compatible)
 
 ---
 
@@ -66,16 +67,4 @@ Adjust commands to match the project's package.json scripts.
 
 ---
 
-## Contributing
-- Fork the repo
-- Create a branch: `git checkout -b feature/your-feature`
-- Make changes and add tests where appropriate
-- Commit: `git commit -m "Add feature"`
-- Push and open a pull request
 
-If you want me to write a CONTRIBUTING.md or an issue template, tell me what rules you'd like and I can generate it.
-
----
-
-## Hebrew (עברית) — תקציר מהיר
-OpenUniApp הוא אפליקציית עזר לסטודנטים של האוניברסיטה הפתוחה. התכונות כוללות: דשבורד אישי, ציונים, לוח זמנים, הודעות וחדשות. כדי להוסיף את תמונת המסך שסיפקת, שמור אותה ב־assets/openuni-screenshot.png והשתמש ב־Markdown: `![OpenUniApp screenshot](./assets/openuni-screenshot.png)` או בקוד React/React Native כפי שמופיע למעלה.
