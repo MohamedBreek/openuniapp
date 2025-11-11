@@ -67,4 +67,6 @@ Adjust commands to match the project's package.json scripts.
 
 ---
 
+## Screenshots 
 
+![screenshot](https://i.ibb.co/spj07M1P/Screenshot-2025-10-26-145127.png)
