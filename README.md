@@ -44,7 +44,7 @@ Adjust commands to match the project's package.json scripts.
 ## How to use
 
 - Open the app and sign in with your Open University credentials (if implemented).
-- From the dashboard you can:
+- From the dashboard, you can:
   - See your current semester summary
   - Open the "My Schedule" to see upcoming lessons
   - Check grades, exam dates, and announcements
@@ -69,4 +69,9 @@ Adjust commands to match the project's package.json scripts.
 
 ## Screenshots 
 
-![screenshot](https://i.ibb.co/spj07M1P/Screenshot-2025-10-26-145127.png)
+![screenshot](https://i.ibb.co/FqDMyFpg/Screenshot-20251025-174003-Expo-Go-2.jpg)
+
+![screenshot](https://i.ibb.co/zTRFvhZn/Screenshot-20251025-174013-Expo-Go-2.jpg)
+
+![screenshot](https://i.ibb.co/JwBmRnrw/Screenshot-20251025-174023-Expo-Go-2.jpg)
+
