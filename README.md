@@ -1,7 +1,6 @@
 # OpenUniApp
 Open University of Israel App for students — a companion app for Open University students to view courses, grades, schedule and campus news.
 
-> NOTE: This README includes usage instructions and how to add the screenshot image you provided (referenced as image1 in our conversation). The UI screenshot appears to be in Hebrew and shows the Open University layout.
 
 ---
 
@@ -54,71 +53,6 @@ Adjust commands to match the project's package.json scripts.
 
 ---
 
-## Adding the screenshot (the image you provided)
-
-You can add the screenshot to the repository and use it both inside the app and in this README.
-
-1. Save the screenshot file to the repository
-   - Create an `assets/` folder at the project root if it doesn't exist:
-     - mkdir assets
-   - Save the provided image as:
-     - assets/openuni-screenshot.png
-     - (Or use a `.jpg` extension if you prefer)
-
-2. Show it in the README (Markdown)
-   - Add this line to the README where you want the image to appear:
-     ```markdown
-     ![OpenUniApp screenshot](./assets/openuni-screenshot.png)
-     ```
-   - Markdown will display the image on GitHub when the file is present at that path.
-
-3. Use the image in a React web app
-   - Example:
-     ```tsx
-     import React from 'react';
-     import screenshot from '../assets/openuni-screenshot.png';
-
-     export default function Demo() {
-       return (
-         <div>
-           <h3>App screenshot</h3>
-           <img src={screenshot} alt="Open University app screenshot" style={{maxWidth: '100%'}} />
-         </div>
-       );
-     }
-     ```
-
-4. Use the image in React Native
-   - Local asset:
-     ```tsx
-     import React from 'react';
-     import { Image, View, StyleSheet } from 'react-native';
-
-     export default function Demo() {
-       return (
-         <View style={styles.container}>
-           <Image
-             source={require('../assets/openuni-screenshot.png')}
-             style={styles.image}
-             resizeMode="contain"
-           />
-         </View>
-       );
-     }
-
-     const styles = StyleSheet.create({
-       container: { alignItems: 'center', padding: 16 },
-       image: { width: 300, height: 650 } // adjust for your layout
-     });
-     ```
-   - If using Expo, you can also use `import` for static assets similarly to web.
-
-5. Optimize (optional)
-   - Resize the image (e.g., to 720px wide) to keep repo size reasonable.
-   - Use `pngquant`/`mozjpeg` or an image optimization tool before committing.
-
----
-
 ## Recommended file structure
 - assets/
   - openuni-screenshot.png
@@ -143,19 +77,5 @@ If you want me to write a CONTRIBUTING.md or an issue template, tell me what rul
 
 ---
 
-## License
-Add a LICENSE file (MIT, Apache-2.0, or another license you prefer). If you want, I can add an MIT license for you.
-
----
-
 ## Hebrew (עברית) — תקציר מהיר
 OpenUniApp הוא אפליקציית עזר לסטודנטים של האוניברסיטה הפתוחה. התכונות כוללות: דשבורד אישי, ציונים, לוח זמנים, הודעות וחדשות. כדי להוסיף את תמונת המסך שסיפקת, שמור אותה ב־assets/openuni-screenshot.png והשתמש ב־Markdown: `![OpenUniApp screenshot](./assets/openuni-screenshot.png)` או בקוד React/React Native כפי שמופיע למעלה.
-
----
-
-If you want, I can:
-- Generate a localized README fully in Hebrew.
-- Add a CONTRIBUTING.md, LICENSE, or sample demo page that includes the screenshot.
-- Create a small demo component that shows the screenshot and the dashboard mock.
-
-Which would you like next?
