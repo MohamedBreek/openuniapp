@@ -54,19 +54,6 @@ Adjust commands to match the project's package.json scripts.
 
 ---
 
-## Recommended file structure
-- assets/
-  - openuni-screenshot.png
-- src/
-  - components/
-  - screens/
-  - services/
-- README.md
-- package.json
-- tsconfig.json
-
----
-
 ## Screenshots 
 
 ![screenshot](https://i.ibb.co/FqDMyFpg/Screenshot-20251025-174003-Expo-Go-2.jpg)
