@@ -56,7 +56,7 @@ Adjust commands to match the project's package.json scripts.
 
 ## Screenshots 
 
-![screenshot]()
+![screenshot](https://i.ibb.co/FqDMyFpg/Screenshot-20251025-174003-Expo-Go-2.jpg)
 
 ![screenshot](https://i.ibb.co/zTRFvhZn/Screenshot-20251025-174013-Expo-Go-2.jpg)
 
